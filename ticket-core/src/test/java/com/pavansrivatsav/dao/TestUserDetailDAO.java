@@ -52,13 +52,12 @@ public class TestUserDetailDAO {
 		// UserDetailService uds = new UserDetailService();
 		// uds.insert(userDetail);
 
-		UserModules mod = new UserModules();
-		TicketDetail ticket = new TicketDetail();
-		UserDetail user = new UserDetail();
-		user.setId(1);
-		ticket.setUser(user);
-		System.out.println(ticket);
-		System.out.println(mod.closeTicket("GOWTHAMGOW@GMAIL.COM", "GOWPASSWORD", 1));
+		// UserModules mod = new UserModules();
+		// System.out.println(mod.closeTicket("GOWTHAMGOW@GMAIL.COM",
+		// "GOWPASSWORD", 1));
+		// //
+		// UserDetailDAO dao = new UserDetailDAO();
+		// System.out.println(dao.getUserId("GOWTHAMGOW@GMAIL.COM"));
 	}
 
 }

@@ -75,4 +75,14 @@ public class UserDetailDAO {
 		});
 	}
 
+	public UserDetail getUserId(String emailId) {
+		final String sql = "select ID from user_details where EMAILID=?";
+		final Object[] params = { emailId };
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+			UserDetail userDetail = new UserDetail();
+			userDetail.setId(rs.getInt("ID"));
+			return userDetail;
+		});
+	}
+
 }
