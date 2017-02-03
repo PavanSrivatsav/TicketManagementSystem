@@ -15,28 +15,27 @@ public class TestUserModule {
 
 		/* Display ticket */
 
-		// UserDetailDAO dao = new UserDetailDAO();
-		// System.out.println(dao.getUserId("GOWTHAMGOW@GMAIL.COM"));
-		// System.out.println(mod.displayTicket("GOWTHAMGOW@GMAIL.COM",
-		// "GOWPASSWORD"));
+		UserDetailDAO dao = new UserDetailDAO();
+		System.out.println(dao.getUserId("GOWTHAMGOW@GMAIL.COM"));
+		System.out.println(mod.displayTicket("GOWTHAMGOW@GMAIL.COM", "GOWPASSWORD"));
 
 		/* Login */
 
-		// UserLoginDAO login = new UserLoginDAO();
+		// LoginDAO login = new LoginDAO();
 		// System.out.println(login.logIn("GOWTHAMGOW@GMAIL.COM",
 		// "GOWPASSWORD"));
 
 		/* Ticket Generation */
 
-		TicketDetail ticketDetail = new TicketDetail();
-		Department dept = new Department();
-		UserDetail user = new UserDetail();
-		user.setId(1);
-		dept.setId(1);
-		ticketDetail.setTicketDept(dept);
-		ticketDetail.setDescription("Laptop");
-		ticketDetail.setUser(user);
-		ticketDetail.setSubject("Wifi- Problem");
-		System.out.println(mod.ticketGenerate(ticketDetail));
+		// TicketDetail ticketDetail = new TicketDetail();
+		// Department dept = new Department();
+		// UserDetail user = new UserDetail();
+		// user.setId(1);
+		// dept.setId(1);
+		// ticketDetail.setTicketDept(dept);
+		// ticketDetail.setDescription("Laptop");
+		// ticketDetail.setUser(user);
+		// ticketDetail.setSubject("Wifi- Problem");
+		// System.out.println(mod.ticketGenerate(ticketDetail));
 	}
 }

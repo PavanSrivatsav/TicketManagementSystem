@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.EmployeeDetail;
+import com.pavansrivatsav.modal.Role;
 
 public class TestEmployeeDetailDAO {
 	public static void main(String[] args) {
@@ -12,15 +13,18 @@ public class TestEmployeeDetailDAO {
 		EmployeeDetailDAO empDetailDAO = new EmployeeDetailDAO();
 
 		/* insert */
-		empDetail.setId(3);
-		empDetail.setName("test");
-		Department dept = new Department();
-		dept.setId(1);
-		empDetail.setDept(dept);
-		empDetail.setEmailId("tesstt@gmail.com");
-		empDetail.setPassword("testPassword");
-		empDetail.setStatus(true);
-		System.out.println("Inserted : " + empDetailDAO.insert(empDetail));
+		// empDetail.setId(3);
+		// empDetail.setName("test");
+		// Department dept = new Department();
+		// dept.setId(1);
+		// empDetail.setDept(dept);
+		// Role role = new Role();
+		// role.setId(1);
+		// empDetail.setRoleId(role);
+		// empDetail.setEmailId("tesstt@gmail.com");
+		// empDetail.setPassword("testPassword");
+		// empDetail.setStatus(true);
+		// System.out.println("Inserted : " + empDetailDAO.insert(empDetail));
 
 		/* update */
 
@@ -34,7 +38,7 @@ public class TestEmployeeDetailDAO {
 		//
 		// /* Select */
 		//
-		// List<EmployeeDetail> emplist = empDetailDAO.select();
+		// List<EmployeeDetail> emplist = empDetailDAO.find();
 		// for (EmployeeDetail i : emplist) {
 		//
 		// System.out.println(i);

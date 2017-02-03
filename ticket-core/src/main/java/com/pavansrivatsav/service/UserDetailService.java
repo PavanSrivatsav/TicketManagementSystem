@@ -47,4 +47,9 @@ public class UserDetailService {
 
 	}
 
+	public void findAll() {
+
+		idao.find();
+	}
+
 }

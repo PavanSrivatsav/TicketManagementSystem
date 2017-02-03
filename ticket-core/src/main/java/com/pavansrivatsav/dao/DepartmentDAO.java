@@ -57,4 +57,6 @@ public class DepartmentDAO {
 		return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
 	}
 
+	/* Functionalities */
+
 }

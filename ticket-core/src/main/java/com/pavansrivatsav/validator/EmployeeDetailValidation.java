@@ -21,6 +21,11 @@ public class EmployeeDetailValidation {
 		ValidationUtil.isInvalidNumber(deptId, "Invalid department id");
 	}
 
+	public void roleIdValidation(Integer roleId) throws ValidationException {
+
+		ValidationUtil.isInvalidNumber(roleId, "Invalid department id");
+	}
+
 	public void nameValidation(String name) throws ValidationException {
 
 		ValidationUtil.isInvalidString(name, "Invalid name");
@@ -45,6 +50,7 @@ public class EmployeeDetailValidation {
 		employeeValidation(empDetail);
 		idvalidation(empDetail.getId());
 		deptIdValidation(empDetail.getDept().getId());
+		roleIdValidation(empDetail.getRoleId().getId());
 		nameValidation(empDetail.getName());
 		emailValidation(empDetail.getEmailId());
 		passwordValidation(empDetail.getPassword());

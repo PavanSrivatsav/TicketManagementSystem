@@ -15,8 +15,8 @@ public class TestTicketDetailDAO {
 		TicketDetailDAO ticketDetailDao = new TicketDetailDAO();
 		//
 		/* Insert */
-		//
-		// ticketDetail.setId(1);
+
+		// ticketDetail.setId(6);
 		//
 		// UserDetail userDetail = new UserDetail();
 		// userDetail.setId(1);
@@ -48,8 +48,8 @@ public class TestTicketDetailDAO {
 
 		/* Delete */
 
-//		ticketDetail.setId(1);
-//		System.out.println(ticketDetailDao.delete(ticketDetail));
+		// ticketDetail.setId(1);
+		// System.out.println(ticketDetailDao.delete(ticketDetail));
 
 		TicketDetailDAO ticketDao = new TicketDetailDAO();
 		List<TicketDetail> ticketlist = ticketDao.find();

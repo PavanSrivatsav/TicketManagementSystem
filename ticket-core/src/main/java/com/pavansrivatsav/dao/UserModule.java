@@ -35,8 +35,8 @@ public class UserModule {
 	 */
 	public String closeTicket(String emailId, String password, Integer ticketId) {
 		final UserDetailDAO userDetaildao = new UserDetailDAO();
-		final UserLoginDAO loginDao = new UserLoginDAO();
-		if (loginDao.logIn(emailId, password)) {
+		final LoginDAO loginDao = new LoginDAO();
+		if (loginDao.userLogIn(emailId, password)) {
 			final String sql = "update ticket_details set STATUS=? where ID=? AND USER_ID=? ";
 			final Object[] params = { "CLOSED", ticketId, userDetaildao.getUserId(emailId).getId() };
 			jdbcTemplate.update(sql, params);
@@ -56,8 +56,8 @@ public class UserModule {
 	 */
 	public String updateTicket(String emailId, String password, Integer ticketId, String ticketStatus) {
 		final UserDetailDAO userDetaildao = new UserDetailDAO();
-		final UserLoginDAO loginDao = new UserLoginDAO();
-		if (loginDao.logIn(emailId, password)) {
+		final LoginDAO loginDao = new LoginDAO();
+		if (loginDao.userLogIn(emailId, password)) {
 			final String sql = "update ticket_details set STATUS=? where ID=? AND USER_ID=?";
 			final Object[] params = { ticketStatus, ticketId, userDetaildao.getUserId(emailId).getId() };
 			jdbcTemplate.update(sql, params);
@@ -74,9 +74,9 @@ public class UserModule {
 	 * @return
 	 */
 	public List<TicketDetail> displayTicket(String emailId, String password) {
-		final UserLoginDAO loginDao = new UserLoginDAO();
+		final LoginDAO loginDao = new LoginDAO();
 		final UserDetailDAO userDetaildao = new UserDetailDAO();
-		if (loginDao.logIn(emailId, password)) {
+		if (loginDao.userLogIn(emailId, password)) {
 			final String sql = "select SUBJECT,DESCRIPTION,STATUS from ticket_details where USER_ID=?";
 			final Object[] params = { userDetaildao.getUserId(emailId).getId() };
 			return jdbcTemplate.query(sql, params, (rs, rowNum) -> {

@@ -46,4 +46,9 @@ public class EmployeeDetailService {
 		}
 
 	}
+
+	public void findAll() {
+
+		empDao.find();
+	}
 }

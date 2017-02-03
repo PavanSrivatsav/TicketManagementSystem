@@ -45,4 +45,8 @@ public class DepartmentService {
 		}
 
 	}
+
+	public void findAll() {
+		deptDao.find();
+	}
 }

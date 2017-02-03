@@ -46,4 +46,8 @@ public class TicketDetailService {
 
 	}
 
+	public void findAll() {
+		ticketDetaildao.find();
+	}
+
 }

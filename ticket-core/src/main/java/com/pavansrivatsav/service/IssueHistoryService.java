@@ -46,4 +46,9 @@ public class IssueHistoryService {
 
 	}
 
+	public void findAll() {
+
+		issueHistorydao.find();
+	}
+
 }
