@@ -4,7 +4,7 @@ import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.modal.UserDetail;
 
-public class UserModulesTest {
+public class TestUserModules {
 	/* user modules validation */
 	public static void main(String[] args) {
 		UserModules mod = new UserModules();
