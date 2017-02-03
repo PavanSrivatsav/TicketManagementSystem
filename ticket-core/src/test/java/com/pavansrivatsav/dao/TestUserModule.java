@@ -4,10 +4,10 @@ import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.modal.UserDetail;
 
-public class TestUserModules {
+public class TestUserModule {
 	/* user modules validation */
 	public static void main(String[] args) {
-		UserModules mod = new UserModules();
+		UserModule mod = new UserModule();
 
 		/* closed ticket */
 		// System.out.println(mod.closeTicket("GOWTHAMGOW@GMAIL.COM",

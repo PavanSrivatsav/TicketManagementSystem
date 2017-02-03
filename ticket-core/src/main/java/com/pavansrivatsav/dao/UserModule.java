@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.util.ConnectionUtil;
 
-public class UserModules {
+public class UserModule {
 	JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
 	/**
