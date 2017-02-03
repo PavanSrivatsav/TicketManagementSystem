@@ -17,7 +17,6 @@ public class EmployeeModule {
 		String sql = "update ticket_details set ASSIGNED_PERSON_ID=?,MODIFIED_TIMESTAMP=now() ,STATUS=? where STATUS=? AND ID=?";
 		Object[] params = { ticketDetail.getEmp().getId(), "IN PROGRESS", "OPEN", ticketDetail.getId() };
 		return jdbcTemplate.update(sql, params);
-
 	}
 
 	public List<TicketDetail> displayTicket(String emailId, String password) {
@@ -51,9 +50,9 @@ public class EmployeeModule {
 
 	}
 
-	public int employeeReassign(Integer EmployeeId, Integer ticketId) {
+	public int employeeReassign(Integer employeeId, Integer ticketId) {
 		String sql = "update ticket_details set ASSIGNED_PERSON_ID=? where ID=?";
-		Object[] params = { EmployeeId, ticketId };
+		Object[] params = { employeeId, ticketId };
 		return jdbcTemplate.update(sql, params);
 
 	}

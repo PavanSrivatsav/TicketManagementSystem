@@ -122,4 +122,9 @@ public class UserDetailDAO {
 		});
 	}
 
+	// public UserDetail getDepartmentId(String department) {
+	// final String sql = "select Id from department where NAME=?";
+	// final Object[] params = { department };
+	// }
+
 }

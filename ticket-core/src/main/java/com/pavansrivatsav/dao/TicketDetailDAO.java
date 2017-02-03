@@ -16,11 +16,11 @@ public class TicketDetailDAO {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
 	public int insert(final TicketDetail ticketDetail) {
-		final String sql = "insert into ticket_details (ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP) values(?,?,?,?,?,?,?,?,?)";
+		final String sql = "insert into ticket_details (ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP) values(?,?,?,?,?,?,?,?,?)";
 		final Object[] params = { ticketDetail.getId(), ticketDetail.getUser().getId(),
 				ticketDetail.getTicketDept().getId(), ticketDetail.getSubject(), ticketDetail.getDescription(),
-				ticketDetail.getEmp().getId(), ticketDetail.getCreated(), ticketDetail.getStatus(),
-				ticketDetail.getModified() };
+				ticketDetail.getPriority(), ticketDetail.getEmp().getId(), ticketDetail.getCreated(),
+				ticketDetail.getStatus(), ticketDetail.getModified() };
 		return jdbcTemplate.update(sql, params);
 
 	}
@@ -63,6 +63,7 @@ public class TicketDetailDAO {
 
 		ticketDetail.setSubject(rs.getString("SUBJECT"));
 		ticketDetail.setDescription(rs.getString("DESCRIPTION"));
+		ticketDetail.setPriority(rs.getString("PRIORITY"));
 
 		emp.setId(rs.getInt("ASSIGNED_PERSON_ID"));
 		ticketDetail.setEmp(emp);
@@ -77,7 +78,7 @@ public class TicketDetailDAO {
 
 	public TicketDetail findOne(Integer id) {
 
-		final String sql = "select ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP from ticket_details where ID=?";
+		final String sql = "select ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP from ticket_details where ID=?";
 		Object[] params = { id };
 		return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
 

@@ -56,6 +56,10 @@ public class UserModuleValidator {
 		ValidationUtil.isValidEmail(email, "Invalid emailId");
 	}
 
+	public void priorityValidation(String priority) throws ValidationException {
+		ValidationUtil.isInvalidString(priority, "Invalid priority");
+	}
+
 	public void ticketGenerate(TicketDetail ticketDetail) throws ValidationException {
 		final UserModule userModule = new UserModule();
 		userModuleValidation(userModule);
@@ -63,6 +67,7 @@ public class UserModuleValidator {
 		deptIdValidator(ticketDetail.getTicketDept().getId());
 		subjectValidation(ticketDetail.getSubject());
 		descriptionValidation(ticketDetail.getDescription());
+		priorityValidation(ticketDetail.getPriority());
 	}
 
 	public void closeTicket(String email, String pass, Integer ticketId) throws ValidationException {

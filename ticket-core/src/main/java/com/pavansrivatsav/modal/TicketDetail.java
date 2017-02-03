@@ -12,6 +12,7 @@ public class TicketDetail {
 	private Department ticketDept;
 	private String subject;
 	private String description;
+	private String priority;
 	private EmployeeDetail emp;
 	private LocalDateTime created;
 	private String status;

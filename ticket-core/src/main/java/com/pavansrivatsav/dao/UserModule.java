@@ -18,9 +18,9 @@ public class UserModule {
 	 * @return
 	 */
 	public String ticketGenerate(TicketDetail ticketDetail) {
-		final String sql = "insert into ticket_details(USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION)values(?,?,?,?)";
+		final String sql = "insert into ticket_details(USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY)values(?,?,?,?,?)";
 		final Object[] params = { ticketDetail.getUser().getId(), ticketDetail.getTicketDept().getId(),
-				ticketDetail.getSubject(), ticketDetail.getDescription() };
+				ticketDetail.getSubject(), ticketDetail.getDescription(), ticketDetail.getPriority() };
 		jdbcTemplate.update(sql, params);
 		return "Ticket generated successfully";
 	}

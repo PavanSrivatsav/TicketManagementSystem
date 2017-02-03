@@ -23,37 +23,41 @@ public class TicketDetailValidator {
 		ValidationUtil.isInvalidNumber(id, "Invalid department id");
 	}
 
-	public void deptValidation(Integer id) throws ValidationException {
+	public void deptValidation(Integer deptId) throws ValidationException {
 
-		ValidationUtil.isInvalidNumber(id, "Invalid department id");
+		ValidationUtil.isInvalidNumber(deptId, "Invalid department id");
 	}
 
-	public void subjectValidation(String name) throws ValidationException {
+	public void subjectValidation(String subject) throws ValidationException {
 
-		ValidationUtil.isInvalidString(name, "Invalid subject");
+		ValidationUtil.isInvalidString(subject, "Invalid subject");
 	}
 
-	public void descriptionValidation(String name) throws ValidationException {
+	public void descriptionValidation(String description) throws ValidationException {
 
-		ValidationUtil.isInvalidString(name, "Invalid description");
+		ValidationUtil.isInvalidString(description, "Invalid description");
 	}
 
-	public void employeeAssignedValidation(Integer id) throws ValidationException {
+	public void employeeAssignedValidation(Integer employeeId) throws ValidationException {
 
-		ValidationUtil.isInvalidNumber(id, "Invalid employee assigned");
+		ValidationUtil.isInvalidNumber(employeeId, "Invalid employee assigned");
 	}
 
-	public void createdTime(LocalDateTime time) throws ValidationException {
-		ValidationUtil.isValidDateTime(time, "Invalid Time Stamp");
+	public void createdTime(LocalDateTime createdTime) throws ValidationException {
+		ValidationUtil.isValidDateTime(createdTime, "Invalid Time Stamp");
 	}
 
-	public void modifiedTime(LocalDateTime time) throws ValidationException {
-		ValidationUtil.isValidDateTime(time, "Invalid Time Stamp");
+	public void modifiedTime(LocalDateTime modifiedTime) throws ValidationException {
+		ValidationUtil.isValidDateTime(modifiedTime, "Invalid Time Stamp");
 	}
 
-	public void statusValidation(String name) throws ValidationException {
+	public void statusValidation(String status) throws ValidationException {
 
-		ValidationUtil.isInvalidString(name, "Invalid status");
+		ValidationUtil.isInvalidString(status, "Invalid status");
+	}
+
+	public void priorityValidation(String priority) throws ValidationException {
+		ValidationUtil.isInvalidString(priority, "Invalid priority");
 	}
 
 	public void validateInsert(TicketDetail ticketDetail) throws ValidationException {
@@ -68,7 +72,7 @@ public class TicketDetailValidator {
 		createdTime(ticketDetail.getCreated());
 		statusValidation(ticketDetail.getStatus());
 		modifiedTime(ticketDetail.getModified());
-
+		priorityValidation(ticketDetail.getPriority());
 	}
 
 	public void validateUpdate(TicketDetail ticketDetail) throws ValidationException {
