@@ -12,6 +12,10 @@ import com.pavansrivatsav.util.ConnectionUtil;
 public class UserDetailDAO {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
+	/**
+	 * @param user
+	 * @return
+	 */
 	public int insert(final UserDetail user) {
 		final String sql = "insert into user_details (ID,NAME,EMAILID,PASSWORD,ACTIVE) values(?,?,?,?,?)";
 		final Object[] params = { user.getId(), user.getName(), user.getEmailId(), user.getPassword(),
@@ -20,6 +24,10 @@ public class UserDetailDAO {
 
 	}
 
+	/**
+	 * @param user
+	 * @return
+	 */
 	public int update(final UserDetail user) {
 		final String sql = "update user_details set pass=? WHERE EMAILID=? ";
 		final Object[] params = { user.getPassword(), user.getEmailId() };
@@ -27,6 +35,20 @@ public class UserDetailDAO {
 
 	}
 
+	/**
+	 * @param userDetail
+	 */
+	public void updateAsInactive(UserDetail userDetail) {
+
+		final String sql = "update user_details set STATUS=? where EMAILID=?";
+		final Object[] params = { userDetail.getStatus(), userDetail.getEmailId() };
+		jdbcTemplate.update(sql, params);
+	}
+
+	/**
+	 * @param user
+	 * @return
+	 */
 	public int delete(final UserDetail user) {
 
 		final String sql = "delete from user_details where ID=?";
@@ -34,12 +56,20 @@ public class UserDetailDAO {
 		return jdbcTemplate.update(sql, params);
 	}
 
+	/**
+	 * @return
+	 */
 	public List<UserDetail> find() {
 
 		final String sql = "select ID,NAME,EMAILID,PASSWORD,ACTIVE from user_details";
 		return jdbcTemplate.query(sql, (rs, rownum) -> convert(rs));
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private UserDetail convert(ResultSet rs) throws SQLException {
 		final UserDetail user = new UserDetail();
 		user.setId(rs.getInt("ID"));
@@ -50,6 +80,10 @@ public class UserDetailDAO {
 		return user;
 	}
 
+	/**
+	 * @param id
+	 * @return
+	 */
 	public UserDetail findOne(Integer id) {
 		final String sql = "select ID,NAME,EMAILID,PASSWORD,ACTIVE from user_details where ID=?";
 		Object[] params = { id };
@@ -58,13 +92,11 @@ public class UserDetailDAO {
 
 	/* Functionalities */
 
-	public void updateAsInactive(UserDetail userDetail) {
-
-		final String sql = "update tbl_users set STATUS=? where EMAILID=?";
-		final Object[] params = { userDetail.getStatus(), userDetail.getEmailId() };
-		jdbcTemplate.update(sql, params);
-	}
-
+	// login
+	/**
+	 * @param emailId
+	 * @return
+	 */
 	public UserDetail getPassword(String emailId) {
 		final String sql = "select password from user_details where EMAILID=?";
 		final Object[] params = { emailId };
@@ -75,6 +107,11 @@ public class UserDetailDAO {
 		});
 	}
 
+	// close , update and view ticket
+	/**
+	 * @param emailId
+	 * @return
+	 */
 	public UserDetail getUserId(String emailId) {
 		final String sql = "select ID from user_details where EMAILID=?";
 		final Object[] params = { emailId };

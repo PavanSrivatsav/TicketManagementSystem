@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pavansrivatsav.exception.ServiceException;
 import com.pavansrivatsav.exception.ValidationException;
+import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.modal.UserDetail;
 import com.pavansrivatsav.service.UserDetailService;
@@ -41,23 +42,47 @@ public class TestUserDetailDAO {
 		//
 		// System.out.println(i);
 		// }
-
+		// *Select one*/
 		// UserDetail userlist = userDetailDAO.findOne(1);
 		// System.out.println(userlist);
 
-		// UserDetailValidator valid = new UserDetailValidator();
-		// // valid.emailValidation(userDetail);
-		// valid.passwordValidation("pavanss.");
+		/* User service validation */
 
 		// UserDetailService uds = new UserDetailService();
 		// uds.insert(userDetail);
 
-		// UserModules mod = new UserModules();
+		/* user modules validation */
+
+		UserModules mod = new UserModules();
+		/* closed ticket */
 		// System.out.println(mod.closeTicket("GOWTHAMGOW@GMAIL.COM",
 		// "GOWPASSWORD", 1));
-		// //
+		/* Display ticket */
+
 		// UserDetailDAO dao = new UserDetailDAO();
 		// System.out.println(dao.getUserId("GOWTHAMGOW@GMAIL.COM"));
+		// System.out.println(mod.displayTicket("GOWTHAMGOW@GMAIL.COM",
+		// "GOWPASSWORD"));
+
+		/* Login */
+
+		// UserLoginDAO login = new UserLoginDAO();
+		// System.out.println(login.logIn("GOWTHAMGOW@GMAIL.COM",
+		// "GOWPASSWORD"));
+
+		/* Ticket Generation */
+
+		TicketDetail ticketDetail = new TicketDetail();
+		Department dept = new Department();
+		UserDetail user = new UserDetail();
+		user.setId(1);
+		dept.setId(1);
+		ticketDetail.setTicketDept(dept);
+		ticketDetail.setDescription("Laptop");
+		ticketDetail.setUser(user);
+		ticketDetail.setSubject("Wifi- Problem");
+		System.out.println(mod.ticketGenerate(ticketDetail));
+
 	}
 
 }
