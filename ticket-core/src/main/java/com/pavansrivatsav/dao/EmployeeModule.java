@@ -16,24 +16,15 @@ import com.pavansrivatsav.util.ConnectionUtil;
 public class EmployeeModule {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 	private TicketDetailDAO ticketdetailDao = new TicketDetailDAO();
-	private RoleDAO roleDao = new RoleDAO();
 	private EmployeeDetailDAO employeeDetailDao = new EmployeeDetailDAO();
 	public static final Logger logger = Logger.getLogger(EmployeeModule.class.getName());
 
 	public String assignTicketToEmployee(String emailId, Integer empId, Integer ticketId) throws PersistenceException {
-		Integer roleId = employeeDetailDao.getRoleId(emailId);
-		Integer deptId = employeeDetailDao.getDepartmentId(emailId);
-		if ((ticketdetailDao.getDeptId(ticketId) == employeeDetailDao.getDepartmentIdByEmpId(empId))
-				&& (deptId == ticketdetailDao.getDeptId(ticketId)) && (roleId == roleDao.getRoleId("Admin"))) {
-			String sql = "update ticket_details set ASSIGNED_PERSON_ID=?,MODIFIED_TIMESTAMP=now() ,STATUS=? where STATUS=? AND ID=?";
-			Object[] params = { empId, "IN PROGRESS", "OPEN", ticketId };
-			logger.log(Level.SEVERE, "No of rows inserted %s ", jdbcTemplate.update(sql, params));
-			return "Ticket assigned Successfully ";
 
-		} else {
-			logger.log(Level.SEVERE, "else part ");
-			return "Assignment Failed ";
-		}
+		String sql = "update ticket_details set ASSIGNED_PERSON_ID=?,MODIFIED_TIMESTAMP=now() ,STATUS=? where STATUS=? AND ID=?";
+		Object[] params = { empId, "IN PROGRESS", "OPEN", ticketId };
+		logger.log(Level.SEVERE, "No of rows inserted %s ", jdbcTemplate.update(sql, params));
+		return "Ticket assigned Successfully ";
 
 	}
 

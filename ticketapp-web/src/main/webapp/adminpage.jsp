@@ -21,6 +21,7 @@
 				<th>Description</th>
 				<th>Status</th>
 				<th>Delete</th>
+				<th>Assign Ticket</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,11 +32,23 @@
 					<td>${c.description}</td>
 					<td>${c.status}</td>
 					<td><a href="../adminModule/delete?id=${c.id}">Delete</a></td>
+					<td><a href="../adminModule?ticketId=${c.id}">Assign</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	${DELETE_ERROR}
+
+	<form action="../adminModule/assignTicket" method=get>
+		TicketId <br> <input type="number" name="ticketId"
+			value=<%=request.getParameter("ticketId")%> required autofocus /><br>
+		Employee Id <br> <input type="number" name="employeeId" required
+			autofocus /><br> <br>
+		<button class="btn btn-primary" type="submit">Assign Ticket</button>
+	</form>
+	${ASSIGN_ERROR}
+	<br>
+	<br>
 	<form method=get>
 		<button class="btn btn-primary" type="submit" formaction="/department">Department</button>
 	</form>
