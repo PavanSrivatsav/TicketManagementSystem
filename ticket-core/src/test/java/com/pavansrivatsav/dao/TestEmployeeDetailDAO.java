@@ -2,12 +2,13 @@ package com.pavansrivatsav.dao;
 
 import java.util.List;
 
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.EmployeeDetail;
 import com.pavansrivatsav.modal.Role;
 
 public class TestEmployeeDetailDAO {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PersistenceException {
 
 		EmployeeDetail empDetail = new EmployeeDetail();
 		EmployeeDetailDAO empDetailDAO = new EmployeeDetailDAO();
@@ -32,7 +33,7 @@ public class TestEmployeeDetailDAO {
 		// empDetail.setEmailId("");
 		// System.out.println("Updated : " + empDetailDAO.update(empDetail));
 		//
-		// /* Delete */
+		/* Delete */
 		// empDetail.setId(3);
 		// System.out.println("Deleted : " + empDetailDAO.delete(empDetail));
 		//
@@ -43,5 +44,7 @@ public class TestEmployeeDetailDAO {
 		//
 		// System.out.println(i);
 		// }
+		// empDetailDAO.getEmailId(1);
+		empDetailDAO.getPassword("PAVAN@GMAIL.COM");
 	}
 }

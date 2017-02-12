@@ -15,14 +15,13 @@ public class IssueHistoryDAO {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
 	public int insert(final IssueHistory issueHistory) {
-		final String sql = "insert into issues_history (ID,TICKET_ID,SOLUTION) values(?,?,?)";
-		final Object[] params = { issueHistory.getId(), issueHistory.getTicketId().getId(),
-				issueHistory.getSolution() };
+		final String sql = "insert into issues_history (TICKET_ID,SOLUTION) values(?,?)";
+		final Object[] params = { issueHistory.getTicketId().getId(), issueHistory.getSolution() };
 		return jdbcTemplate.update(sql, params);
 
 	}
 
-	public int update(final IssueHistory issueHistory) {
+	public Integer update(final IssueHistory issueHistory) {
 
 		final String sql = "update issues_history set SOLUTION=? WHERE TICKET_ID=? ";
 		final Object[] params = { issueHistory.getSolution(), issueHistory.getTicketId().getId() };
@@ -30,7 +29,7 @@ public class IssueHistoryDAO {
 
 	}
 
-	public int delete(final IssueHistory issueHistory) {
+	public Integer delete(final IssueHistory issueHistory) {
 
 		final String sql = "delete from issues_history where ID=?";
 		final Object[] params = { issueHistory.getId() };

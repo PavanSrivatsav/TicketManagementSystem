@@ -22,7 +22,7 @@ public class RoleValidator {
 	}
 
 	public void statusValidation(Boolean status) throws ValidationException {
-		ValidationUtil.isValidBoolean(status, "Invalid status");
+		ValidationUtil.isInvalidBoolean(status, "Invalid status");
 	}
 
 	public void validateInsert(Role role) throws ValidationException {

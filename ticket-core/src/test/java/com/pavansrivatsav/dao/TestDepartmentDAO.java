@@ -29,10 +29,11 @@ public class TestDepartmentDAO {
 
 		/* Select */
 
-		List<Department> deptlist = deptdao.find();
+		List<Department> deptlist = deptdao.findAll();
 		for (Department i : deptlist) {
 
 			System.out.println(i);
 		}
 	}
+
 }

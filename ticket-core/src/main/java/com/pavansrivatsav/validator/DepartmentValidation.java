@@ -22,13 +22,12 @@ public class DepartmentValidation {
 	}
 
 	public void statusValidation(Boolean status) throws ValidationException {
-		ValidationUtil.isValidBoolean(status, "Invalid status");
+		ValidationUtil.isInvalidBoolean(status, "Invalid status");
 	}
 
 	public void validateInsert(Department dept) throws ValidationException {
 
 		deptValidation(dept);
-		idvalidation(dept.getId());
 		nameValidation(dept.getName());
 		statusValidation(dept.getStatus());
 
@@ -38,6 +37,7 @@ public class DepartmentValidation {
 
 		deptValidation(dept);
 		idvalidation(dept.getId());
+		nameValidation(dept.getName());
 		statusValidation(dept.getStatus());
 	}
 

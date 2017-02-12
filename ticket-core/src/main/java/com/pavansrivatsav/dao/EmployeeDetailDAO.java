@@ -4,8 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.EmployeeDetail;
 import com.pavansrivatsav.modal.Role;
@@ -17,36 +20,62 @@ public class EmployeeDetailDAO {
 	/**
 	 * @param empDetail
 	 * @return
+	 * @throws PersistenceException
 	 */
-	public int insert(final EmployeeDetail empDetail) {
-		final String sql = "insert into employee_details (ID,DEPT_ID,ROLE_ID,NAME,EMAILID,PASSWORD,ACTIVE) values(?,?,?,?,?,?,?)";
-		final Object[] params = { empDetail.getId(), empDetail.getDept().getId(), empDetail.getRoleId().getId(),
-				empDetail.getName(), empDetail.getEmailId(), empDetail.getPassword(), empDetail.getStatus() };
-		return jdbcTemplate.update(sql, params);
+	public String insert(final EmployeeDetail empDetail) throws PersistenceException {
+		try {
+			final String sql = "insert into employee_details (DEPT_ID,ROLE_ID,NAME,EMAILID,PASSWORD,ACTIVE) values(?,?,?,?,?,?)";
+			final Object[] params = { empDetail.getRoleId().getId(), empDetail.getName(), empDetail.getEmailId(),
+					empDetail.getPassword(), empDetail.getStatus() };
+			Integer rows = jdbcTemplate.update(sql, params);
+			if (rows == 0) {
+				return "Please check your ticket id";
+
+			} else {
+				return "Successfully updated";
+			}
+		} catch (DuplicateKeyException e) {
+			throw new PersistenceException("EmailId already exists", e);
+		}
 
 	}
 
 	/**
 	 * @param empDetail
 	 * @return
+	 * @throws PersistenceException
 	 */
-	public int update(final EmployeeDetail empDetail) {
+	public String update(final EmployeeDetail empDetail) {
 
 		final String sql = "update employee_details set pass=? WHERE EMAILID=? ";
 		final Object[] params = { empDetail.getStatus(), empDetail.getEmailId() };
-		return jdbcTemplate.update(sql, params);
+		Integer rows = jdbcTemplate.update(sql, params);
+		if (rows == 0) {
+			return "Please check your ticket id";
+
+		} else {
+			return "Successfully updated";
+		}
 
 	}
 
 	/**
 	 * @param empDetail
 	 * @return
+	 * @throws PersistenceException
 	 */
-	public int delete(final EmployeeDetail empDetail) {
+	public String delete(final EmployeeDetail empDetail) {
 
 		final String sql = "delete from employee_details where ID=?";
 		final Object[] params = { empDetail.getId() };
-		return jdbcTemplate.update(sql, params);
+		final Integer rows = jdbcTemplate.update(sql, params);
+		if (rows == 0) {
+			return "Please check your ticket id";
+
+		} else {
+			return "Successfully updated";
+		}
+
 	}
 
 	/**
@@ -80,45 +109,104 @@ public class EmployeeDetailDAO {
 		return empDetail;
 	}
 
-	/**
-	 * @param id
-	 * @return
-	 */
-	public EmployeeDetail findOne(Integer id) {
-
-		final String sql = "select ID,DEPT_ID,ROLE_ID,NAME,EMAILID,PASSWORD,ACTIVE from employee_details where ID=?";
-		Object[] params = { id };
-		return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
-
+	public EmployeeDetail findOne(Integer id) throws PersistenceException {
+		try {
+			final String sql = "select ID,DEPT_ID,ROLE_ID,NAME,EMAILID,PASSWORD,ACTIVE from employee_details where ID=?";
+			Object[] params = { id };
+			return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Wrong employee ID ");
+		}
 	}
 
 	/* Functionalities */
 
-	/**
-	 * @param emailId
-	 * @return
-	 */
-	public EmployeeDetail getPassword(String emailId) {
-		final String sql = "select password from employee_details where EMAILID=?";
-		final Object[] params = { emailId };
-		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
-			EmployeeDetail emp = new EmployeeDetail();
-			emp.setPassword(rs.getString("PASSWORD"));
-			return emp;
-		});
+	public String getPassword(String emailId) throws PersistenceException {
+		try {
+
+			final String sql = "select password from employee_details where EMAILID=?";
+			final Object[] params = { emailId };
+			return jdbcTemplate.queryForObject(sql, params, String.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid Id", e);
+		}
+
+	}
+
+	public String getAdminPassword(String emailId) throws PersistenceException {
+		try {
+
+			final String sql = "select password from employee_details where EMAILID=? AND ROLE_ID=?";
+			final Object[] params = { emailId, 1 };
+			return jdbcTemplate.queryForObject(sql, params, String.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid Id", e);
+		}
+
 	}
 
 	/**
 	 * @param emailId
 	 * @return
+	 * @throws PersistenceException
 	 */
-	public EmployeeDetail getUserId(String emailId) {
-		final String sql = "select ID from employee_details where EMAILID=?";
-		final Object[] params = { emailId };
-		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
-			EmployeeDetail empDetail = new EmployeeDetail();
-			empDetail.setId(rs.getInt("ID"));
-			return empDetail;
-		});
+	public Integer getEmpId(String emailId) throws PersistenceException {
+		try {
+
+			final String sql = "select ID from employee_details where EMAILID=?";
+			final Object[] params = { emailId };
+			return jdbcTemplate.queryForObject(sql, params, Integer.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid emailId");
+		}
+
+	}
+
+	public Integer getDepartmentId(String emailId) throws PersistenceException {
+		try {
+
+			final String sql = "select dept_id from employee_details where EMAILID=?";
+			final Object[] params = { emailId };
+			return jdbcTemplate.queryForObject(sql, params, Integer.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid emailId");
+		}
+
+	}
+
+	public Integer getDepartmentIdByEmpId(Integer empId) throws PersistenceException {
+		try {
+
+			final String sql = "select dept_id from employee_details where ID=?";
+			final Object[] params = { empId };
+			return jdbcTemplate.queryForObject(sql, params, Integer.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid Employee id");
+		}
+
+	}
+
+	public Integer getRoleId(String emailId) throws PersistenceException {
+		try {
+
+			final String sql = "select ROLE_ID from employee_details where EMAILID=?";
+			final Object[] params = { emailId };
+			return jdbcTemplate.queryForObject(sql, params, Integer.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid emailId");
+		}
+
+	}
+
+	public String getEmailId(Integer roleId) throws PersistenceException {
+		try {
+
+			final String sql = "select emailid from employee_details where ROLE_ID=?";
+			final Object[] params = { roleId };
+			return jdbcTemplate.queryForObject(sql, params, String.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid role Id", e);
+		}
+
 	}
 }

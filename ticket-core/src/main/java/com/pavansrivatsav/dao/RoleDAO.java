@@ -13,19 +13,19 @@ public class RoleDAO {
 
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
-	public int insert(final Role role) {
+	public Integer insert(final Role role) {
 		String sql = "insert into role NAME values (?)";
 		Object[] params = { role.getRoleName() };
 		return jdbcTemplate.update(sql, params);
 	}
 
-	public int update(final Role role) {
+	public Integer update(final Role role) {
 		String sql = "update role set NAME=? where ID=?";
 		Object[] params = { role.getRoleName(), role.getId() };
 		return jdbcTemplate.update(sql, params);
 	}
 
-	public int delete(final Role role) {
+	public Integer delete(final Role role) {
 
 		final String sql = "delete from role where ID=?";
 		final Object[] params = { role.getId() };
@@ -52,5 +52,15 @@ public class RoleDAO {
 		final String sql = "select ID,NAME,ACTIVE from Role where ID=?";
 		Object[] params = { id };
 		return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
+	}
+
+	/* Functionalities */
+
+	public Integer getRoleId(String name) {
+		final String sql = "select id from role where name=?";
+		final Object[] params = { name };
+
+		return jdbcTemplate.queryForObject(sql, params, Integer.class);
+
 	}
 }

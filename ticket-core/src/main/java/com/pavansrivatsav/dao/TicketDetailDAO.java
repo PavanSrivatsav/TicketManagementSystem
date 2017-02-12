@@ -4,10 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.modal.Department;
-import com.pavansrivatsav.modal.EmployeeDetail;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.modal.UserDetail;
 import com.pavansrivatsav.util.ConnectionUtil;
@@ -15,17 +16,17 @@ import com.pavansrivatsav.util.ConnectionUtil;
 public class TicketDetailDAO {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
-	public int insert(final TicketDetail ticketDetail) {
-		final String sql = "insert into ticket_details (ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP) values(?,?,?,?,?,?,?,?,?)";
-		final Object[] params = { ticketDetail.getId(), ticketDetail.getUser().getId(),
-				ticketDetail.getTicketDept().getId(), ticketDetail.getSubject(), ticketDetail.getDescription(),
-				ticketDetail.getPriority(), ticketDetail.getEmp().getId(), ticketDetail.getCreated(),
-				ticketDetail.getStatus(), ticketDetail.getModified() };
+	public Integer insert(final TicketDetail ticketDetail) {
+		final String sql = "insert into ticket_details (USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP) values(?,?,?,?,?,?,?,?,?)";
+		final Object[] params = { ticketDetail.getUser().getId(), ticketDetail.getTicketDept().getId(),
+				ticketDetail.getSubject(), ticketDetail.getDescription(), ticketDetail.getPriority(),
+				ticketDetail.getEmp().getId(), ticketDetail.getCreated(), ticketDetail.getStatus(),
+				ticketDetail.getModified() };
 		return jdbcTemplate.update(sql, params);
 
 	}
 
-	public int update(final TicketDetail ticketDetail) {
+	public Integer update(final TicketDetail ticketDetail) {
 
 		final String sql = "update ticket_details set STATUS=? WHERE ID=? ";
 		final Object[] params = { ticketDetail.getStatus(), ticketDetail.getId() };
@@ -33,16 +34,29 @@ public class TicketDetailDAO {
 
 	}
 
-	public int delete(final TicketDetail ticketDetail) {
+	// public Integer delete(final Integer id) throws PersistenceException {
+	// try {
+	// final String sql = "delete from ticket_details where ID=?";
+	// final Object[] params = { id };
+	// return jdbcTemplate.update(sql, params);
+	// } catch (DataIntegrityViolationException e) {
+	// throw new PersistenceException("Cannot delete ", e);
+	// }
+	// }
 
-		final String sql = "delete from ticket_details where ID=?";
-		final Object[] params = { ticketDetail.getId() };
-		return jdbcTemplate.update(sql, params);
+	public Integer delete(final TicketDetail ticketDetail) throws PersistenceException {
+		try {
+			final String sql = "delete from ticket_details where ID=?";
+			final Object[] params = { ticketDetail.getId() };
+			return jdbcTemplate.update(sql, params);
+		} catch (DataIntegrityViolationException e) {
+			throw new PersistenceException("Cannot delete ", e);
+		}
 	}
 
 	public List<TicketDetail> find() {
 
-		final String sql = "select ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP from ticket_details";
+		final String sql = "select ID,USER_ID,DEPARTMENT_ID,PRIORITY,SUBJECT,DESCRIPTION,CREATED_TIMESTAMP,STATUS from ticket_details";
 		return jdbcTemplate.query(sql, (rs, rowNum) -> convert(rs));
 
 	}
@@ -51,8 +65,6 @@ public class TicketDetailDAO {
 		final TicketDetail ticketDetail = new TicketDetail();
 		final Department dept = new Department();
 		final UserDetail user = new UserDetail();
-		final EmployeeDetail emp = new EmployeeDetail();
-
 		ticketDetail.setId(rs.getInt("ID"));
 
 		user.setId(rs.getInt("USER_ID"));
@@ -64,26 +76,46 @@ public class TicketDetailDAO {
 		ticketDetail.setSubject(rs.getString("SUBJECT"));
 		ticketDetail.setDescription(rs.getString("DESCRIPTION"));
 		ticketDetail.setPriority(rs.getString("PRIORITY"));
-
-		emp.setId(rs.getInt("ASSIGNED_PERSON_ID"));
-		ticketDetail.setEmp(emp);
-
 		ticketDetail.setCreated((rs.getTimestamp("CREATED_TIMESTAMP")).toLocalDateTime());
 		ticketDetail.setStatus(rs.getString("STATUS"));
-		ticketDetail.setModified((rs.getTimestamp("MODIFIED_TIMESTAMP")).toLocalDateTime());
-
 		return ticketDetail;
 
 	}
 
-	public TicketDetail findOne(Integer id) {
-
-		final String sql = "select ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY,ASSIGNED_PERSON_ID,CREATED_TIMESTAMP,STATUS,MODIFIED_TIMESTAMP from ticket_details where ID=?";
-		Object[] params = { id };
-		return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
-
+	public List<TicketDetail> findById(Integer userId) {
+		final String sql = "select ID,SUBJECT,DESCRIPTION,PRIORITY,CREATED_TIMESTAMP,STATUS from ticket_details where USER_ID=?";
+		Object[] params = { userId };
+		return jdbcTemplate.query(sql, params, (rs, rowNum) -> {
+			final TicketDetail ticketDetail = new TicketDetail();
+			ticketDetail.setId(rs.getInt("ID"));
+			ticketDetail.setSubject(rs.getString("SUBJECT"));
+			ticketDetail.setDescription(rs.getString("DESCRIPTION"));
+			ticketDetail.setPriority(rs.getString("PRIORITY"));
+			ticketDetail.setCreated((rs.getTimestamp("CREATED_TIMESTAMP")).toLocalDateTime());
+			ticketDetail.setStatus(rs.getString("STATUS"));
+			return ticketDetail;
+		});
 	}
 
 	/* Functionalities */
+
+	public Integer getDeptId(int id) {
+		final String sql = "select department_id from ticket_details where id=?";
+		final Object[] params = { id };
+
+		return jdbcTemplate.queryForObject(sql, params, Integer.class);
+
+	}
+
+	public TicketDetail getStatus(int ticketId) {
+		final String sql = "select status from ticket_details where id=?";
+		final Object[] params = { ticketId };
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> {
+			TicketDetail ticketDetail = new TicketDetail();
+			ticketDetail.setStatus(rs.getString("status"));
+			return ticketDetail;
+		});
+
+	}
 
 }

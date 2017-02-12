@@ -2,30 +2,44 @@ package com.pavansrivatsav.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.pavansrivatsav.modal.EmployeeDetail;
-import com.pavansrivatsav.modal.UserDetail;
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.util.ConnectionUtil;
 
 public class LoginDAO {
 	JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 
-	public Boolean userLogIn(String emailId, String password) {
+	public Boolean userLogIn(String emailId, String password) throws PersistenceException {
 		UserDetailDAO userdetailDAO = new UserDetailDAO();
 
-		UserDetail user = userdetailDAO.getPassword(emailId);
-		if (user.getPassword().equals(password)) {
+		String user = userdetailDAO.getPassword(emailId);
+		if (user.equals(password)) {
 			return true;
+		} else {
+			throw new PersistenceException("Invalid Password");
 		}
-		return false;
 	}
 
-	public Boolean employeeLogIn(String emailId, String password) {
+	public Boolean employeeLogIn(String emailId, String password) throws PersistenceException {
 		EmployeeDetailDAO employeedetailDAO = new EmployeeDetailDAO();
 
-		EmployeeDetail emp = employeedetailDAO.getPassword(emailId);
-		if (emp.getPassword().equals(password)) {
+		String emp = employeedetailDAO.getPassword(emailId);
+		if (emp.equals(password)) {
 			return true;
+		} else {
+			throw new PersistenceException("Invalid Password");
 		}
-		return false;
+
+	}
+
+	public Boolean adminLogIn(String emailId, String password) throws PersistenceException {
+		EmployeeDetailDAO employeedetailDAO = new EmployeeDetailDAO();
+
+		String admin = employeedetailDAO.getAdminPassword(emailId);
+		if (admin.equals(password)) {
+			return true;
+		} else {
+			throw new PersistenceException("Invalid Password");
+		}
+
 	}
 }

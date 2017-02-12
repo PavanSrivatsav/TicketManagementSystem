@@ -1,6 +1,7 @@
 package com.pavansrivatsav.service;
 
 import com.pavansrivatsav.dao.EmployeeDetailDAO;
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.exception.ServiceException;
 import com.pavansrivatsav.exception.ValidationException;
 import com.pavansrivatsav.modal.EmployeeDetail;
@@ -17,6 +18,9 @@ public class EmployeeDetailService {
 			employeeDetailValidator.validateInsert(employeeDetail);
 
 			empDao.insert(employeeDetail);
+
+		} catch (PersistenceException e) {
+			throw new ServiceException("EmailId already exists", e);
 		} catch (ValidationException e) {
 			throw new ServiceException("Could not insert items", e);
 		}
@@ -51,4 +55,5 @@ public class EmployeeDetailService {
 
 		empDao.find();
 	}
+
 }

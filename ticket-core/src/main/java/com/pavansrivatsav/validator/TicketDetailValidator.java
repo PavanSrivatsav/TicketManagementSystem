@@ -20,7 +20,7 @@ public class TicketDetailValidator {
 
 	public void userIdValidation(Integer id) throws ValidationException {
 
-		ValidationUtil.isInvalidNumber(id, "Invalid department id");
+		ValidationUtil.isInvalidNumber(id, "Invalid user id");
 	}
 
 	public void deptValidation(Integer deptId) throws ValidationException {
@@ -44,11 +44,11 @@ public class TicketDetailValidator {
 	}
 
 	public void createdTime(LocalDateTime createdTime) throws ValidationException {
-		ValidationUtil.isValidDateTime(createdTime, "Invalid Time Stamp");
+		ValidationUtil.isInvalidDateTime(createdTime, "Invalid Time Stamp");
 	}
 
 	public void modifiedTime(LocalDateTime modifiedTime) throws ValidationException {
-		ValidationUtil.isValidDateTime(modifiedTime, "Invalid Time Stamp");
+		ValidationUtil.isInvalidDateTime(modifiedTime, "Invalid Time Stamp");
 	}
 
 	public void statusValidation(String status) throws ValidationException {
@@ -83,7 +83,6 @@ public class TicketDetailValidator {
 	}
 
 	public void validateDelete(TicketDetail ticketDetail) throws ValidationException {
-		ticketValidation(ticketDetail);
 		idvalidation(ticketDetail.getId());
 	}
 }

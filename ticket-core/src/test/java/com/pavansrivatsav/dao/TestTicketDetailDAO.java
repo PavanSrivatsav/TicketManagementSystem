@@ -1,15 +1,12 @@
 package com.pavansrivatsav.dao;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import com.pavansrivatsav.modal.Department;
-import com.pavansrivatsav.modal.EmployeeDetail;
+import com.pavansrivatsav.exception.ValidationException;
 import com.pavansrivatsav.modal.TicketDetail;
-import com.pavansrivatsav.modal.UserDetail;
 
 public class TestTicketDetailDAO {
-	public static void main(String args[]) {
+	public static void main(String args[]) throws ValidationException {
 
 		TicketDetail ticketDetail = new TicketDetail();
 		TicketDetailDAO ticketDetailDao = new TicketDetailDAO();
@@ -51,12 +48,27 @@ public class TestTicketDetailDAO {
 		// ticketDetail.setId(1);
 		// System.out.println(ticketDetailDao.delete(ticketDetail));
 
-		TicketDetailDAO ticketDao = new TicketDetailDAO();
-		List<TicketDetail> ticketlist = ticketDao.find();
-		for (TicketDetail i : ticketlist) {
+//		 TicketDetailDAO ticketDao = new TicketDetailDAO();
+//		 List<TicketDetail> ticketlist = ticketDao.find();
+//		 for (TicketDetail i : ticketlist) {
+//		
+//		 System.out.println(i);
+//		 }
 
-			System.out.println(i);
-		}
+		// TicketDetailValidator tdv = new TicketDetailValidator();
+		// ticketDetail.setId(1);
+		// UserDetail user = new UserDetail();
+		// user.setId(-1);
+		// ticketDetail.setUser(user);
+		// tdv.validateInsert(ticketDetail);
+
+//		TicketDetailDAO ticketDao = new TicketDetailDAO();
+//		List<TicketDetail> ticketlist = ticketDao.findById(1);
+//		for (TicketDetail i : ticketlist) {
+//
+//			System.out.println(i);
+//		}
+		
 
 	}
 }

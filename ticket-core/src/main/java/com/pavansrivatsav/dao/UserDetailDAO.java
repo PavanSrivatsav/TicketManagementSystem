@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.modal.UserDetail;
 import com.pavansrivatsav.util.ConnectionUtil;
 
@@ -15,13 +17,16 @@ public class UserDetailDAO {
 	/**
 	 * @param user
 	 * @return
+	 * @throws PersistenceException
 	 */
-	public int insert(final UserDetail user) {
-		final String sql = "insert into user_details (ID,NAME,EMAILID,PASSWORD,ACTIVE) values(?,?,?,?,?)";
-		final Object[] params = { user.getId(), user.getName(), user.getEmailId(), user.getPassword(),
-				user.getStatus() };
-		return jdbcTemplate.update(sql, params);
-
+	public int insert(final UserDetail user) throws PersistenceException {
+		try {
+			final String sql = "insert into user_details (NAME,EMAILID,PASSWORD) values (?,?,?)";
+			final Object[] params = { user.getName(), user.getEmailId(), user.getPassword() };
+			return jdbcTemplate.update(sql, params);
+		} catch (DuplicateKeyException e) {
+			throw new PersistenceException("Email id already exists");
+		}
 	}
 
 	/**
@@ -97,14 +102,23 @@ public class UserDetailDAO {
 	 * @param emailId
 	 * @return
 	 */
-	public UserDetail getPassword(String emailId) {
+	// public UserDetail getPassword(String emailId) {
+	//
+	// final String sql = "select password from user_details where EMAILID=?";
+	// final Object[] params = { emailId };
+	// return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+	// UserDetail user = new UserDetail();
+	// user.setPassword(rs.getString("PASSWORD"));
+	// return user;
+	// });
+	// }
+	//
+
+	public String getPassword(String emailId) {
+
 		final String sql = "select password from user_details where EMAILID=?";
 		final Object[] params = { emailId };
-		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
-			UserDetail user = new UserDetail();
-			user.setPassword(rs.getString("PASSWORD"));
-			return user;
-		});
+		return jdbcTemplate.queryForObject(sql, params, String.class);
 	}
 
 	// close , update and view ticket
@@ -121,10 +135,5 @@ public class UserDetailDAO {
 			return userDetail;
 		});
 	}
-
-	// public UserDetail getDepartmentId(String department) {
-	// final String sql = "select Id from department where NAME=?";
-	// final Object[] params = { department };
-	// }
 
 }

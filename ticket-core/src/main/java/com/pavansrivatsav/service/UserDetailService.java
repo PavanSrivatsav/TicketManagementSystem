@@ -1,6 +1,7 @@
 package com.pavansrivatsav.service;
 
 import com.pavansrivatsav.dao.UserDetailDAO;
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.exception.ServiceException;
 import com.pavansrivatsav.exception.ValidationException;
 import com.pavansrivatsav.modal.UserDetail;
@@ -15,10 +16,11 @@ public class UserDetailService {
 
 		try {
 			userDetailValidator.validateInsert(userDetail);
-
 			idao.insert(userDetail);
 		} catch (ValidationException e) {
-			throw new ServiceException("Could not insert items", e);
+			throw new ServiceException("Please enter proper details");
+		} catch (PersistenceException e) {
+			throw new ServiceException("Email id already exists");
 		}
 
 	}
@@ -45,11 +47,6 @@ public class UserDetailService {
 			throw new ServiceException("Could not delete items", e);
 		}
 
-	}
-
-	public void findAll() {
-
-		idao.find();
 	}
 
 }

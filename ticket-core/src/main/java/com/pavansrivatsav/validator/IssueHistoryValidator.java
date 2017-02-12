@@ -22,7 +22,6 @@ public class IssueHistoryValidator {
 	}
 
 	public void insertValidation(IssueHistory issue) throws ValidationException {
-		issueValidation(issue);
 		idvalidation(issue.getId());
 		solutionValidation(issue.getSolution());
 	}

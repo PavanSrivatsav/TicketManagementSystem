@@ -33,16 +33,16 @@ public class EmployeeDetailValidation {
 
 	public void passwordValidation(String password) throws ValidationException {
 
-		ValidationUtil.isValidPassword(password, "Invalid password");
+		ValidationUtil.isInvalidPassword(password, "Invalid password");
 	}
 
 	public void emailValidation(String email) throws ValidationException {
 
-		ValidationUtil.isValidEmail(email, "Invalid emailId");
+		ValidationUtil.isInvalidEmail(email, "Invalid emailId");
 	}
 
 	public void statusValidation(Boolean status) throws ValidationException {
-		ValidationUtil.isValidBoolean(status, "Invalid status");
+		ValidationUtil.isInvalidBoolean(status, "Invalid status");
 	}
 
 	public void validateInsert(EmployeeDetail empDetail) throws ValidationException {

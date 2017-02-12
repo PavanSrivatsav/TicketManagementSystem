@@ -1,29 +1,25 @@
 package com.pavansrivatsav.dao;
 
-import java.util.List;
-
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.exception.ServiceException;
 import com.pavansrivatsav.exception.ValidationException;
-import com.pavansrivatsav.modal.Department;
-import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.modal.UserDetail;
-import com.pavansrivatsav.service.UserDetailService;
-import com.pavansrivatsav.validator.UserDetailValidator;
 
 public class TestUserDetailDAO {
 
-	public static void main(String[] args) throws ValidationException, ServiceException {
+	public static void main(String[] args) throws ValidationException, ServiceException, PersistenceException {
 
 		UserDetail userDetail = new UserDetail();
 		UserDetailDAO userDetailDAO = new UserDetailDAO();
+		LoginDAO login=new LoginDAO();
 
 		/* insert */
-		// userDetail.setId(3);
-		// userDetail.setName("test");
-		// userDetail.setEmailId("tesstt@gmail.com");
-		// userDetail.setPassword("testPassword");
-		// userDetail.setStatus(true);
-		// System.out.println("Inserted : " + userDetailDAO.insert(userDetail));
+//
+//		userDetail.setName("test");
+//		userDetail.setEmailId("tesstt@gmail.com");
+//		userDetail.setPassword("testPassword");
+//
+//		System.out.println("Inserted : " + userDetailDAO.insert(userDetail));
 
 		/* update */
 
@@ -51,6 +47,9 @@ public class TestUserDetailDAO {
 		// UserDetailService uds = new UserDetailService();
 		// uds.insert(userDetail);
 
+		
+//		System.out.println(userDetailDAO.getPassword("charith93@gmail.com"));
+		System.out.println(login.userLogIn("charith93@gmail.com", "dsfdsdsfdsfssdfdfsf"));
 	}
 
 }

@@ -23,26 +23,25 @@ public class UserDetailValidator {
 
 	public void passwordValidation(String password) throws ValidationException {
 
-		ValidationUtil.isValidPassword(password, "Invalid password");
+		ValidationUtil.isInvalidPassword(password, "Invalid password");
 	}
 
 	public void emailValidation(String email) throws ValidationException {
 
-		ValidationUtil.isValidEmail(email, "Invalid emailId");
+		ValidationUtil.isInvalidEmail(email, "Invalid emailId");
 	}
 
 	public void statusValidation(Boolean status) throws ValidationException {
-		ValidationUtil.isValidBoolean(status, "Invalid status");
+		ValidationUtil.isInvalidBoolean(status, "Invalid status");
 	}
 
 	public void validateInsert(UserDetail usrDetail) throws ValidationException {
 
-		userValidation(usrDetail);
-		idvalidation(usrDetail.getId());
+		// userValidation(usrDetail);
+		// idvalidation(usrDetail.getId());
 		nameValidation(usrDetail.getName());
 		emailValidation(usrDetail.getEmailId());
 		passwordValidation(usrDetail.getPassword());
-		statusValidation(usrDetail.getStatus());
 
 	}
 
