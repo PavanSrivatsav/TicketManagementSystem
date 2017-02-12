@@ -55,7 +55,7 @@ public class AdminController {
 
 			empmod.assignTicketToEmployee(email, empId, id);
 		} catch (PersistenceException er) {
-			modelmap.addAttribute("DELETE_ERROR", er.getMessage());
+			modelmap.addAttribute("ASSIGN_ERROR", er.getMessage());
 			return "../adminModule";
 		}
 		return "redirect:../adminModule";
