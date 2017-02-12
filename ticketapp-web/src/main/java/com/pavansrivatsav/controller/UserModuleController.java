@@ -31,15 +31,15 @@ public class UserModuleController {
 
 	@GetMapping
 	public String index(ModelMap modelmap, HttpSession session) throws PersistenceException {
-		System.out.println("userModule->index");
+
 		String email = (String) (session.getAttribute("USER_LOGGED_IN"));
-		Integer UserId = userdao.getUserId(email);
-		if (UserId == null || UserId < 0) {
+		Integer userId = userdao.getUserId(email);
+		if (userId == null || userId < 0) {
 			return "redirect:/";
 		} else {
 
 			List<TicketDetail> userList;
-			userList = ticketDetailService.findById(UserId);
+			userList = ticketDetailService.findById(userId);
 			modelmap.addAttribute("USER_TICKET_LIST", userList);
 			return "TicketGeneration.jsp";
 		}
@@ -50,11 +50,11 @@ public class UserModuleController {
 			@RequestParam("description") String description, @RequestParam("dept") Integer department,
 			@RequestParam("priority") String priority, ModelMap modelMap, HttpSession session)
 			throws PersistenceException {
-		System.out.println("usermodule->ticketCreate");
+
 		try {
 			String email = (String) (session.getAttribute("USER_LOGGED_IN"));
-			Integer UserId = userdao.getUserId(email);
-			user.setId(UserId);
+			Integer userId = userdao.getUserId(email);
+			user.setId(userId);
 			ticketDetail.setUser(user);
 			ticketDetail.setSubject(subject);
 			ticketDetail.setDescription(description);
@@ -73,12 +73,12 @@ public class UserModuleController {
 	public String ticket(@RequestParam("id") Integer id, @RequestParam("editsubject") String subject,
 			@RequestParam("editdescription") String description, @RequestParam("editstatus") String status,
 			ModelMap modelMap) {
-		System.out.println("usermodule->ticketEdit");
+
 		ticketDetail.setId(id);
 		ticketDetail.setSubject(subject);
 		ticketDetail.setDescription(description);
 		ticketDetail.setStatus(status);
-		System.out.println("id->" + id);
+
 		try {
 			ums.updateTicket(ticketDetail);
 		} catch (ServiceException e) {
@@ -90,7 +90,7 @@ public class UserModuleController {
 
 	@GetMapping("/ticketClose")
 	public String ticket(@RequestParam("id") Integer id, ModelMap modelMap) {
-		System.out.println("usermodule->ticketClose");
+
 		try {
 			ums.closeTicket(id);
 		} catch (ServiceException e) {

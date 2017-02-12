@@ -7,6 +7,7 @@ import com.pavansrivatsav.util.ConnectionUtil;
 
 public class LoginDAO {
 	JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
+	private String invalidPassword = "Invalid Password";
 
 	public Boolean userLogIn(String emailId, String password) throws PersistenceException {
 		UserDetailDAO userdetailDAO = new UserDetailDAO();
@@ -15,7 +16,7 @@ public class LoginDAO {
 		if (user.equals(password)) {
 			return true;
 		} else {
-			throw new PersistenceException("Invalid Password");
+			throw new PersistenceException(invalidPassword);
 		}
 	}
 
@@ -26,7 +27,7 @@ public class LoginDAO {
 		if (emp.equals(password)) {
 			return true;
 		} else {
-			throw new PersistenceException("Invalid Password");
+			throw new PersistenceException(invalidPassword);
 		}
 
 	}
@@ -38,7 +39,7 @@ public class LoginDAO {
 		if (admin.equals(password)) {
 			return true;
 		} else {
-			throw new PersistenceException("Invalid Password");
+			throw new PersistenceException(invalidPassword);
 		}
 
 	}

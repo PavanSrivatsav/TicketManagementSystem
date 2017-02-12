@@ -18,9 +18,9 @@ public class UserDetailService {
 			userDetailValidator.validateInsert(userDetail);
 			idao.insert(userDetail);
 		} catch (ValidationException e) {
-			throw new ServiceException("Please enter proper details");
+			throw new ServiceException("Please enter proper details", e);
 		} catch (PersistenceException e) {
-			throw new ServiceException("Email id already exists");
+			throw new ServiceException("Email id already exists", e);
 		}
 
 	}

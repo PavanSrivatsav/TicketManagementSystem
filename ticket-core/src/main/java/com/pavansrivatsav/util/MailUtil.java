@@ -16,11 +16,11 @@ public class MailUtil {
 
 		email.setSmtpPort(587);
 
-		email.setAuthenticator(new DefaultAuthenticator("ticketmanagement.tms@gmail.com", "ticket123"));
+		email.setAuthenticator(new DefaultAuthenticator("ticket@gmail.com", "ticket123"));
 		email.setDebug(true);
 		email.setHostName("smtp.gmail.com");
 		email.setSSLOnConnect(true);
-		email.setFrom("ticketmanagement.tms@gmail.com");
+		email.setFrom("ticket@gmail.com");
 		email.setSubject("Ticket Management System");
 		email.setMsg(message + issueId);
 		email.addTo(mail);
@@ -34,11 +34,11 @@ public class MailUtil {
 
 		email.setSmtpPort(587);
 
-		email.setAuthenticator(new DefaultAuthenticator("ticketmanagement.tms@gmail.com", "ticket123"));
+		email.setAuthenticator(new DefaultAuthenticator("ticket@gmail.com", "ticket123"));
 		email.setDebug(true);
 		email.setHostName("smtp.gmail.com");
 		email.setSSLOnConnect(true);
-		email.setFrom("ticketmanagement.tms@gmail.com");
+		email.setFrom("ticket@gmail.com");
 		email.setSubject("Ticket Management System");
 		email.setMsg(message + solution);
 		email.addTo(mail);

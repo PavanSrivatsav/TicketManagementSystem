@@ -48,7 +48,7 @@ public class UserModuleService {
 		} catch (PersistenceException e) {
 			throw new ServiceException("Try a diff email id", e);
 		} catch (EmailException e) {
-			e.printStackTrace();
+			throw new ServiceException("Could not send email ", e);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class UserModuleService {
 		} catch (PersistenceException e) {
 			throw new ServiceException("Try a diff email id or ticket id", e);
 		} catch (ValidationException e) {
-			throw new ServiceException("Please enter proper inputs");
+			throw new ServiceException("Please enter proper inputs", e);
 		}
 	}
 

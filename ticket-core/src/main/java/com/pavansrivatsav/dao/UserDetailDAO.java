@@ -26,7 +26,7 @@ public class UserDetailDAO {
 			final Object[] params = { user.getName(), user.getEmailId(), user.getPassword() };
 			return jdbcTemplate.update(sql, params);
 		} catch (DuplicateKeyException e) {
-			throw new PersistenceException("Email id already exists");
+			throw new PersistenceException("Email id already exists", e);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class UserDetailDAO {
 			final Object[] params = { emailId };
 			return jdbcTemplate.queryForObject(sql, params, Integer.class);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Invalid emailId");
+			throw new PersistenceException("Invalid emailId", e);
 		}
 
 	}

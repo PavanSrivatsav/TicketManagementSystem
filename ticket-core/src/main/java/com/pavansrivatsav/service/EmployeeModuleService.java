@@ -82,14 +82,13 @@ public class EmployeeModuleService {
 			String userEmailId = empmod.getemailIdByTicketId(ticketId);
 			String solution = issue.getSolution();
 			empmod.employeeReply(issue);
-			System.out.println("User EmailId : " + userEmailId + "Solution : " + solution);
 			MailUtil.sendUserMail(userEmailId, "Solution for your TicketId " + ticketId + " is: \n\n", solution);
 		}
 
 		catch (PersistenceException e) {
 			throw new ServiceException("Try a diff ticket id", e);
 		} catch (EmailException e) {
-			throw new ServiceException("Try a diff ticket id", e);
+			throw new ServiceException("Try a different ticket id", e);
 		}
 	}
 }

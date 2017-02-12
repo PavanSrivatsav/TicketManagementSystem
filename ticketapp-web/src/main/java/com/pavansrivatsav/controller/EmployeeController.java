@@ -14,7 +14,6 @@ import com.pavansrivatsav.dao.EmployeeDetailDAO;
 import com.pavansrivatsav.dao.EmployeeModule;
 import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.exception.ServiceException;
-import com.pavansrivatsav.modal.EmployeeDetail;
 import com.pavansrivatsav.modal.IssueHistory;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.service.EmployeeModuleService;
@@ -30,7 +29,7 @@ public class EmployeeController {
 
 	@GetMapping
 	public String empTicketDisplay(ModelMap modelmap, HttpSession session) throws PersistenceException {
-		System.out.println("employeeController->employeemodule");
+
 		List<TicketDetail> empList;
 		String email = (String) (session.getAttribute("EMP_LOGGED_IN"));
 		Integer empId = empDao.getEmpId(email);
@@ -53,14 +52,12 @@ public class EmployeeController {
 	@GetMapping("/replyticket")
 	public String empTicketReply(@RequestParam("id") Integer id, @RequestParam("solution") String solution,
 			ModelMap modelmap, HttpSession session) {
-		System.out.println("employeeController->employeemodule->ticketReply");
-		EmployeeDetail emp = (EmployeeDetail) session.getAttribute("EMP_LOGGED_IN");
-		System.out.println(emp);
+
 		try {
 			ticketId.setId(id);
 			issueHistory.setTicketId(ticketId);
 			issueHistory.setSolution(solution);
-			System.out.println(issueHistory.getSolution() + " " + issueHistory.getTicketId().getId());
+
 			ems.replyToTicket(issueHistory);
 
 		} catch (ServiceException e) {
@@ -72,7 +69,7 @@ public class EmployeeController {
 
 	@GetMapping("/resolve")
 	public String empTicketResolve(@RequestParam("id") Integer id, ModelMap modelmap) {
-		System.out.println("employeeModule->ticketResolve");
+
 		em.employeeResolve(id);
 		return "redirect:../employeeModule";
 	}
@@ -81,7 +78,6 @@ public class EmployeeController {
 	public String empTicketReassign(@RequestParam("TicketId") Integer ticketId,
 			@RequestParam("empId") Integer employeeId, ModelMap modelmap) {
 
-		System.out.println("employeeModule -> reasssign Ticket");
 		try {
 			em.reAssignTicketToEmployee(employeeId, ticketId);
 		} catch (PersistenceException e) {

@@ -19,7 +19,7 @@ public class UserLoginController {
 	@GetMapping
 	public String userLogin(@RequestParam("userEmail") String emailId, @RequestParam("userPassword") String password,
 			ModelMap modelMap, HttpSession session) {
-		System.out.println("login->userLogin");
+	
 		try {
 			session.setAttribute("USER_LOGGED_IN", emailId);
 			ums.logIn(emailId, password);

@@ -20,7 +20,7 @@ public class AdminLoginController {
 	public String adminLogin(@RequestParam("adminEmail") String emailId, @RequestParam("adminPassword") String password,
 			ModelMap modelMap, HttpSession httpSession) {
 
-		System.out.println("login->adminLogin");
+	
 		try {
 			login.adminLogIn(emailId, password);
 			httpSession.setAttribute("ADMIN_LOGGED_IN", emailId);

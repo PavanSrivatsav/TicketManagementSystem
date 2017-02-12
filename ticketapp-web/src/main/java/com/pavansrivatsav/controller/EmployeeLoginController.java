@@ -20,7 +20,7 @@ public class EmployeeLoginController {
 	public String empLogin(@RequestParam("empEmail") String emailId, @RequestParam("empPassword") String password,
 			ModelMap modelMap, HttpSession httpSession) {
 
-		System.out.println("login->empLogin");
+		
 		try {
 			ems.logIn(emailId, password);
 			httpSession.setAttribute("EMP_LOGGED_IN", emailId);

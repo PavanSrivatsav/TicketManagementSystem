@@ -39,7 +39,7 @@ public class EmployeeModule {
 
 	public String reAssignTicketToEmployee(Integer empId, Integer ticketId) throws PersistenceException {
 
-		if ((ticketdetailDao.getDeptId(ticketId) == employeeDetailDao.getDepartmentIdByEmpId(empId))) {
+		if (ticketdetailDao.getDeptId(ticketId) == employeeDetailDao.getDepartmentIdByEmpId(empId)) {
 			String sql = "update ticket_details set ASSIGNED_PERSON_ID=?,MODIFIED_TIMESTAMP=now() ,STATUS=? where STATUS=? AND ID=?";
 			Object[] params = { empId, "IN PROGRESS", "OPEN", ticketId };
 			logger.log(Level.SEVERE, "No of rows inserted %s ", jdbcTemplate.update(sql, params));
@@ -67,7 +67,7 @@ public class EmployeeModule {
 			});
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("No tickets available");
+			throw new PersistenceException("No tickets available", e);
 		}
 
 	}
@@ -79,7 +79,7 @@ public class EmployeeModule {
 			return jdbcTemplate.update(sql, params);
 
 		} catch (DuplicateKeyException e) {
-			throw new PersistenceException("Sorry ticket already available");
+			throw new PersistenceException("Sorry ticket already available", e);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class EmployeeModule {
 			ticketdetailDao.delete(ticketDetail);
 			return "Successfully deleted";
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("No such email id or ticket id found");
+			throw new PersistenceException("No such email id or ticket id found", e);
 		}
 
 	}

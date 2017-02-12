@@ -35,7 +35,7 @@ public class DepartmentDAO {
 		} catch (DuplicateKeyException e) {
 			throw new PersistenceException("department name already exists", e);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Please check your department id or name");
+			throw new PersistenceException("Please check your department id or name", e);
 		}
 	}
 

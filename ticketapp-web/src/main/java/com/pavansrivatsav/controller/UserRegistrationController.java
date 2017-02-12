@@ -17,15 +17,15 @@ public class UserRegistrationController {
 	private UserDetailService userService = new UserDetailService();
 
 	@GetMapping
-	public String UserRegister() {
-		System.out.println("userRegistration -> index");
+	public String userRegister() {
+
 		return "userReg.jsp";
 	}
 
 	@GetMapping("/register")
-	public String Register(@RequestParam("username") String name, @RequestParam("userEmail") String emailId,
+	public String register(@RequestParam("username") String name, @RequestParam("userEmail") String emailId,
 			@RequestParam("userPassword") String password, ModelMap modelMap) {
-		System.out.println("userRegistration -> register");
+
 		try {
 			user.setName(name);
 			user.setEmailId(emailId);

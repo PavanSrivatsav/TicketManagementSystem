@@ -10,13 +10,13 @@ public class HomeController {
 
 	@GetMapping
 	public String home() {
-		System.out.println("Home Page");
+
 		return "index.jsp";
 	}
 
 	@GetMapping("/admin")
 	public String adminPage() {
-		System.out.println("Admin Page");
+
 		return "admin.jsp";
 	}
 }

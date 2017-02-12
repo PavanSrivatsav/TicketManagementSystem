@@ -21,7 +21,7 @@ public class AdminController {
 
 	@GetMapping
 	public String empTicketDisplay(ModelMap modelmap) {
-		System.out.println("AdminController->adminmodule");
+
 		List<TicketDetail> ticketList;
 		ticketList = ticketDetailDao.find();
 		modelmap.addAttribute("ADMIN_TICKET_LIST", ticketList);
@@ -30,12 +30,12 @@ public class AdminController {
 
 	@GetMapping("/delete")
 	public String delete(@RequestParam("id") Integer id, ModelMap modelmap) throws ServiceException {
-		System.out.println("AdminController->ticket->delete->id:" + id);
+
 		try {
 			ticketDetail.setId(id);
-			
+
 			ticketDetailDao.delete(ticketDetail);
-			System.out.println("try");
+
 		} catch (PersistenceException er) {
 			modelmap.addAttribute("DELETE_ERROR", er.getMessage());
 			return "../adminModule";

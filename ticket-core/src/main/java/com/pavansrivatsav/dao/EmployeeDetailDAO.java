@@ -16,6 +16,9 @@ import com.pavansrivatsav.util.ConnectionUtil;
 
 public class EmployeeDetailDAO {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
+	private String checkticketId = "Please check your ticket id";
+	private String updated = "Successfully updated";
+	private String email = "Invalid emailId";
 
 	/**
 	 * @param empDetail
@@ -29,10 +32,10 @@ public class EmployeeDetailDAO {
 					empDetail.getPassword(), empDetail.getStatus() };
 			Integer rows = jdbcTemplate.update(sql, params);
 			if (rows == 0) {
-				return "Please check your ticket id";
+				return checkticketId;
 
 			} else {
-				return "Successfully updated";
+				return updated;
 			}
 		} catch (DuplicateKeyException e) {
 			throw new PersistenceException("EmailId already exists", e);
@@ -51,10 +54,10 @@ public class EmployeeDetailDAO {
 		final Object[] params = { empDetail.getStatus(), empDetail.getEmailId() };
 		Integer rows = jdbcTemplate.update(sql, params);
 		if (rows == 0) {
-			return "Please check your ticket id";
+			return checkticketId;
 
 		} else {
-			return "Successfully updated";
+			return updated;
 		}
 
 	}
@@ -70,10 +73,10 @@ public class EmployeeDetailDAO {
 		final Object[] params = { empDetail.getId() };
 		final Integer rows = jdbcTemplate.update(sql, params);
 		if (rows == 0) {
-			return "Please check your ticket id";
+			return checkticketId;
 
 		} else {
-			return "Successfully updated";
+			return updated;
 		}
 
 	}
@@ -115,7 +118,7 @@ public class EmployeeDetailDAO {
 			Object[] params = { id };
 			return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> convert(rs));
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Wrong employee ID ");
+			throw new PersistenceException("Wrong employee ID ", e);
 		}
 	}
 
@@ -157,7 +160,7 @@ public class EmployeeDetailDAO {
 			final Object[] params = { emailId };
 			return jdbcTemplate.queryForObject(sql, params, Integer.class);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Invalid emailId");
+			throw new PersistenceException(email, e);
 		}
 
 	}
@@ -169,7 +172,7 @@ public class EmployeeDetailDAO {
 			final Object[] params = { emailId };
 			return jdbcTemplate.queryForObject(sql, params, Integer.class);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Invalid emailId");
+			throw new PersistenceException(email, e);
 		}
 
 	}
@@ -181,7 +184,7 @@ public class EmployeeDetailDAO {
 			final Object[] params = { empId };
 			return jdbcTemplate.queryForObject(sql, params, Integer.class);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Invalid Employee id");
+			throw new PersistenceException("Invalid Employee id", e);
 		}
 
 	}
@@ -193,7 +196,7 @@ public class EmployeeDetailDAO {
 			final Object[] params = { emailId };
 			return jdbcTemplate.queryForObject(sql, params, Integer.class);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException("Invalid emailId");
+			throw new PersistenceException(email, e);
 		}
 
 	}

@@ -14,6 +14,7 @@ public class UserModule {
 	JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 	private TicketDetail ticketDetail = new TicketDetail();
 	private TicketDetailDAO ticketDetailDAO = new TicketDetailDAO();
+	private String closed = "CLOSED";
 
 	/**
 	 * Ticket generation
@@ -43,7 +44,7 @@ public class UserModule {
 	public String closeTicket(Integer ticketId) throws PersistenceException {
 
 		final String sql = "update ticket_details set STATUS=? where ID=? AND STATUS!=?";
-		final Object[] params = { "CLOSED", ticketId, "CLOSED" };
+		final Object[] params = { closed, ticketId, closed };
 		jdbcTemplate.update(sql, params);
 		return "Ticket Closed";
 	}
@@ -98,7 +99,6 @@ public class UserModule {
 		final String sql = "select ID from ticket_details where subject=? and description=? ";
 		Object[] params = { subject, description };
 		return jdbcTemplate.query(sql, params, (rs, rowNum) -> {
-			final TicketDetail ticketDetail = new TicketDetail();
 			ticketDetail.setId(rs.getInt("ID"));
 			return ticketDetail;
 		});

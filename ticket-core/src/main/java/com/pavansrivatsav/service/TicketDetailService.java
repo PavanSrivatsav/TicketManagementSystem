@@ -25,9 +25,9 @@ public class TicketDetailService {
 			ticketDetaildao.insert(ticketDetail);
 			String emailId = empdetail.getEmailId(1);
 			String subject = ticketDetail.getSubject();
-			Integer TicketId = ticketDetail.getId();
+			Integer ticketId = ticketDetail.getId();
 			MailUtil.sendAdminMail(emailId, "Ticket Created Sucessfully on " + subject + ".Your Ticket id is:",
-					TicketId);
+					ticketId);
 		} catch (ValidationException e) {
 			throw new ServiceException("Could not insert items", e);
 		} catch (EmailException e) {
@@ -57,7 +57,7 @@ public class TicketDetailService {
 
 			ticketDetaildao.delete(ticketDetail);
 		} catch (ValidationException e) {
-			throw new ServiceException("Could not delete items", e);
+			throw new ServiceException("Could not delete item", e);
 		} catch (PersistenceException e) {
 			throw new ServiceException("Could not delete items", e);
 		}

@@ -21,9 +21,9 @@ public class DepartmentService {
 			deptDao.insert(dept);
 
 		} catch (PersistenceException e) {
-			throw new ServiceException("Duplicate entry");
+			throw new ServiceException("Duplicate entry", e);
 		} catch (ValidationException e) {
-			throw new ServiceException("Could not insert items");
+			throw new ServiceException("Could not insert items", e);
 		}
 
 	}
@@ -35,7 +35,7 @@ public class DepartmentService {
 
 			deptDao.update(dept);
 		} catch (PersistenceException e) {
-			throw new ServiceException("Duplicate entry");
+			throw new ServiceException("Duplicate entry", e);
 		} catch (ValidationException e) {
 			throw new ServiceException("Could not update items", e);
 		}

@@ -22,7 +22,7 @@ public class DepartmentController {
 
 	@GetMapping
 	public String index(ModelMap modelmap, HttpSession session) {
-		System.out.println("department->index");
+	
 		List<Department> deptList;
 		deptList = ds.findAll();
 		modelmap.addAttribute("DEPARTMENT_LIST", deptList);
@@ -32,7 +32,7 @@ public class DepartmentController {
 
 	@GetMapping("/save")
 	public String save(@RequestParam("deptname") String name, ModelMap modelmap) {
-		System.out.println("deptname:" + name);
+		
 		dept.setName(name);
 		dept.setStatus(true);
 		try {
@@ -46,7 +46,7 @@ public class DepartmentController {
 
 	@GetMapping("/delete")
 	public String delete(@RequestParam("id") Integer id, ModelMap modelmap) throws ServiceException {
-		System.out.println("department->delete->id:" + id);
+		
 		dept.setId(id);
 		try {
 			ds.delete(dept);
@@ -60,7 +60,7 @@ public class DepartmentController {
 	@GetMapping("/update")
 	public String update(@RequestParam("id") Integer id, @RequestParam("upDeptname") String name,
 			@RequestParam("status") Boolean status) {
-		System.out.println("department->update");
+		
 		dept.setId(id);
 		dept.setName(name);
 		dept.setStatus(status);
