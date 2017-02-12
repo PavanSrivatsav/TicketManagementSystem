@@ -64,16 +64,8 @@ public class ValidationUtil {
 		isInvalidEmail(emailId, "InvalidEmailId");
 		isInvalidPassword(password, "InvalidPassword");
 	}
-	
+
 	public static void validateEmail(String emailId) throws ValidationException {
 		isInvalidEmail(emailId, "InvalidEmailId");
 	}
-
-	// public static void ticketValidation(Integer ticketId, String msg) throws
-	// ValidationException {
-	// if (ticketId == null || ticketId <= 0) {
-	// throw new ValidationException(msg);
-	// }
-	// }
-
 }

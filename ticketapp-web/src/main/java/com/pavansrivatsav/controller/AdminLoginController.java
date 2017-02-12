@@ -24,9 +24,8 @@ public class AdminLoginController {
 		try {
 			login.adminLogIn(emailId, password);
 			httpSession.setAttribute("ADMIN_LOGGED_IN", emailId);
-			// EmployeeDetail emp = (EmployeeDetail)
-		} // httpSession.getAttribute("EMP_LOGGED_IN");
-		catch (PersistenceException e) {
+
+		} catch (PersistenceException e) {
 			modelMap.addAttribute("ADMIN_LOGIN", e.getMessage());
 			return "/admin";
 		}

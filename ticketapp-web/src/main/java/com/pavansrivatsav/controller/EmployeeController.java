@@ -2,15 +2,19 @@ package com.pavansrivatsav.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pavansrivatsav.dao.EmployeeDetailDAO;
 import com.pavansrivatsav.dao.EmployeeModule;
 import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.exception.ServiceException;
+import com.pavansrivatsav.modal.EmployeeDetail;
 import com.pavansrivatsav.modal.IssueHistory;
 import com.pavansrivatsav.modal.TicketDetail;
 import com.pavansrivatsav.service.EmployeeModuleService;
@@ -20,27 +24,38 @@ import com.pavansrivatsav.service.EmployeeModuleService;
 public class EmployeeController {
 	private EmployeeModule em = new EmployeeModule();
 	private EmployeeModuleService ems = new EmployeeModuleService();
+	private EmployeeDetailDAO empDao = new EmployeeDetailDAO();
 	private IssueHistory issueHistory = new IssueHistory();
 	private TicketDetail ticketId = new TicketDetail();
 
 	@GetMapping
-	public String empTicketDisplay(ModelMap modelmap) {
+	public String empTicketDisplay(ModelMap modelmap, HttpSession session) throws PersistenceException {
 		System.out.println("employeeController->employeemodule");
 		List<TicketDetail> empList;
-		try {
-			empList = em.displayTicket("pavansrivatsav96@gmail.com");
-			modelmap.addAttribute("EMP_TICKET_LIST", empList);
-		} catch (PersistenceException e) {
+		String email = (String) (session.getAttribute("EMP_LOGGED_IN"));
+		Integer empId = empDao.getEmpId(email);
+		if (empId == null || empId < 0) {
+			return "redirect:/";
+		} else {
+			try {
+
+				empList = em.displayTicket(empId);
+				modelmap.addAttribute("EMP_TICKET_LIST", empList);
+
+			} catch (PersistenceException e) {
+				return "employeeModule.jsp";
+			}
+
 			return "employeeModule.jsp";
 		}
-
-		return "employeeModule.jsp";
 	}
 
 	@GetMapping("/replyticket")
 	public String empTicketReply(@RequestParam("id") Integer id, @RequestParam("solution") String solution,
-			ModelMap modelmap) {
+			ModelMap modelmap, HttpSession session) {
 		System.out.println("employeeController->employeemodule->ticketReply");
+		EmployeeDetail emp = (EmployeeDetail) session.getAttribute("EMP_LOGGED_IN");
+		System.out.println(emp);
 		try {
 			ticketId.setId(id);
 			issueHistory.setTicketId(ticketId);

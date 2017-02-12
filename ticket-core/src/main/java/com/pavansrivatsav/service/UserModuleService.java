@@ -31,13 +31,11 @@ public class UserModuleService {
 		}
 	}
 
-	public void ticketGeneration(TicketDetail ticketDetail, String emailId, String password) throws ServiceException {
+	public void ticketGeneration(TicketDetail ticketDetail, String emailId) throws ServiceException {
 		try {
-			ValidationUtil.validateLogin(emailId, password);
-			// login.userLogIn(emailId, password);
 			String subject = ticketDetail.getSubject();
 			userModuleValidator.ticketGenerate(ticketDetail);
-			userModule.ticketGenerate(ticketDetail, emailId, password);
+			userModule.ticketGenerate(ticketDetail, emailId);
 
 			List<TicketDetail> id = userModule.findById(ticketDetail.getSubject(), ticketDetail.getDescription());
 			TicketDetail a = id.get(0);
@@ -56,9 +54,7 @@ public class UserModuleService {
 
 	public void closeTicket(Integer ticketId) throws ServiceException {
 		try {
-			// ValidationUtil.validateLogin(emailId, password);
-			// userModuleValidator.closeTicket(emailId, password, ticketId);
-			// login.userLogIn(emailId, password);
+
 			userModule.closeTicket(ticketId);
 		} catch (PersistenceException e) {
 			throw new ServiceException("Try a diff email id or ticket id", e);
@@ -69,7 +65,6 @@ public class UserModuleService {
 		try {
 
 			userModuleValidator.updateTicket(ticketDetail);
-			// login.userLogIn(emailId, password);
 			userModule.updateTicket(ticketDetail);
 		} catch (PersistenceException e) {
 			throw new ServiceException("Try a diff email id or ticket id", e);
@@ -77,9 +72,5 @@ public class UserModuleService {
 			throw new ServiceException("Please enter proper inputs");
 		}
 	}
-
-	// public List<UserModule> find(){
-	//
-	// }
 
 }

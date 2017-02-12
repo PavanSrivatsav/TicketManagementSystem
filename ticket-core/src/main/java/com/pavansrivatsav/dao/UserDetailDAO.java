@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.pavansrivatsav.exception.PersistenceException;
@@ -102,17 +103,6 @@ public class UserDetailDAO {
 	 * @param emailId
 	 * @return
 	 */
-	// public UserDetail getPassword(String emailId) {
-	//
-	// final String sql = "select password from user_details where EMAILID=?";
-	// final Object[] params = { emailId };
-	// return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
-	// UserDetail user = new UserDetail();
-	// user.setPassword(rs.getString("PASSWORD"));
-	// return user;
-	// });
-	// }
-	//
 
 	public String getPassword(String emailId) {
 
@@ -126,14 +116,17 @@ public class UserDetailDAO {
 	 * @param emailId
 	 * @return
 	 */
-	public UserDetail getUserId(String emailId) {
-		final String sql = "select ID from user_details where EMAILID=?";
-		final Object[] params = { emailId };
-		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
-			UserDetail userDetail = new UserDetail();
-			userDetail.setId(rs.getInt("ID"));
-			return userDetail;
-		});
+
+	public Integer getUserId(String emailId) throws PersistenceException {
+		try {
+
+			final String sql = "select ID from user_details where EMAILID=?";
+			final Object[] params = { emailId };
+			return jdbcTemplate.queryForObject(sql, params, Integer.class);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException("Invalid emailId");
+		}
+
 	}
 
 }

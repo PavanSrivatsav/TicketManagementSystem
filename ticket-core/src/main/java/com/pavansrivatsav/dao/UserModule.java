@@ -23,19 +23,13 @@ public class UserModule {
 	 * @throws PersistenceException
 	 * @throws DataAccessException
 	 */
-	public Integer ticketGenerate(TicketDetail ticketDetail, String emailid, String pass) throws PersistenceException {
-		// final LoginDAO loginDao = new LoginDAO();
-		// if (loginDao.userLogIn(emailid, pass)) {
+	public Integer ticketGenerate(TicketDetail ticketDetail, String emailId) throws PersistenceException {
 
 		final String sql = "insert into ticket_details(USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,PRIORITY)values(?,?,?,?,?)";
 		final Object[] params = { ticketDetail.getUser().getId(), ticketDetail.getTicketDept().getId(),
 				ticketDetail.getSubject(), ticketDetail.getDescription(), ticketDetail.getPriority() };
 		return jdbcTemplate.update(sql, params);
-		// return "Ticket generated successfully. We willl get back to you
-		// soon";
-		// } else {
-		// return "Invalid email id or password";
-		// }
+
 	}
 
 	/**
@@ -47,23 +41,12 @@ public class UserModule {
 	 * @return @throws PersistenceException @throws
 	 */
 	public String closeTicket(Integer ticketId) throws PersistenceException {
-		// final UserDetailDAO userDetaildao = new UserDetailDAO();
-		// final LoginDAO loginDao = new LoginDAO();
-		// if (loginDao.userLogIn(emailId, password)) {
-		// if ((ticketDetail.getStatus()).equals("CLOSED")) {
 
-		// return "Ticket is already closed";
-		// } else {
 		final String sql = "update ticket_details set STATUS=? where ID=? AND STATUS!=?";
 		final Object[] params = { "CLOSED", ticketId, "CLOSED" };
 		jdbcTemplate.update(sql, params);
 		return "Ticket Closed";
 	}
-
-	// } else {
-	// return "Invalid email id or password";
-	// }
-	// }
 
 	/**
 	 * Update Ticket
@@ -100,7 +83,7 @@ public class UserModule {
 		final UserDetailDAO userDetaildao = new UserDetailDAO();
 		if (loginDao.userLogIn(emailId, password)) {
 			final String sql = "select SUBJECT,DESCRIPTION,STATUS from ticket_details where USER_ID=?";
-			final Object[] params = { userDetaildao.getUserId(emailId).getId() };
+			final Object[] params = { userDetaildao.getUserId(emailId) };
 			return jdbcTemplate.query(sql, params, (rs, rowNum) -> {
 				ticketDetail.setSubject(rs.getString("SUBJECT"));
 				ticketDetail.setDescription(rs.getString("DESCRIPTION"));

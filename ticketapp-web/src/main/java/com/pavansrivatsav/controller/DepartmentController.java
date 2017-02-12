@@ -26,16 +26,9 @@ public class DepartmentController {
 		List<Department> deptList;
 		deptList = ds.findAll();
 		modelmap.addAttribute("DEPARTMENT_LIST", deptList);
-//		System.out.println(session.getAttribute("EMP_LOGGED_IN"));
-//		Object emp = session.getAttribute("EMP_LOGGED_IN");
-//		session.invalidate();
-//		System.out.println("email id" + emp);
-//		if (emp == null) {
-//			return "redirect:/";
-//		} else {
-			return "department.jsp";
-		}
-//	}
+
+		return "department.jsp";
+	}
 
 	@GetMapping("/save")
 	public String save(@RequestParam("deptname") String name, ModelMap modelmap) {

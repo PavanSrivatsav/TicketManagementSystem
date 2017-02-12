@@ -65,7 +65,7 @@ public class UserModuleValidator {
 	}
 
 	public void ticketGenerate(TicketDetail ticketDetail) throws ValidationException {
-		// ticketValidation(ticketDetail);
+
 		userIdValidator(ticketDetail.getUser().getId());
 		deptIdValidator(ticketDetail.getTicketDept().getId());
 		subjectValidation(ticketDetail.getSubject());

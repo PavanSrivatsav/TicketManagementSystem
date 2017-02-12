@@ -37,8 +37,6 @@ public class UserDetailValidator {
 
 	public void validateInsert(UserDetail usrDetail) throws ValidationException {
 
-		// userValidation(usrDetail);
-		// idvalidation(usrDetail.getId());
 		nameValidation(usrDetail.getName());
 		emailValidation(usrDetail.getEmailId());
 		passwordValidation(usrDetail.getPassword());

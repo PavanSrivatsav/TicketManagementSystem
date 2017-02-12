@@ -15,7 +15,6 @@ import com.pavansrivatsav.util.ConnectionUtil;
 
 public class EmployeeModule {
 	private JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
-	private EmployeeDetailDAO empdao = new EmployeeDetailDAO();
 	private TicketDetailDAO ticketdetailDao = new TicketDetailDAO();
 	private RoleDAO roleDao = new RoleDAO();
 	private EmployeeDetailDAO employeeDetailDao = new EmployeeDetailDAO();
@@ -53,11 +52,10 @@ public class EmployeeModule {
 
 	}
 
-	public List<TicketDetail> displayTicket(String emailId) throws PersistenceException {
-		final EmployeeDetailDAO empDetaildao = new EmployeeDetailDAO();
+	public List<TicketDetail> displayTicket(Integer id) throws PersistenceException {
 		try {
 			final String sql = "select ID,SUBJECT,DESCRIPTION,STATUS,PRIORITY from ticket_details where ASSIGNED_PERSON_ID=? ";
-			final Object[] params = { empDetaildao.getEmpId(emailId) };
+			final Object[] params = { id };
 			return jdbcTemplate.query(sql, params, (rs, rowNum) -> {
 				final TicketDetail ticketDetail = new TicketDetail();
 				ticketDetail.setId(rs.getInt("ID"));
@@ -94,16 +92,8 @@ public class EmployeeModule {
 
 	public String deleteTicket(TicketDetail ticketDetail) throws PersistenceException {
 		try {
-			// Integer roleId = empdao.getRoleId(emailId);
-			// Integer deptId = empdao.getDepartmentId(emailId);
-			// if ((deptId == ticketdetailDao.getDeptId(ticketId)) && (roleId ==
-			// roleDao.getRoleId("ADMIN"))) {
-
 			ticketdetailDao.delete(ticketDetail);
 			return "Successfully deleted";
-			// } else {
-			// return "You dont have such privileges ";
-			// }
 		} catch (EmptyResultDataAccessException e) {
 			throw new PersistenceException("No such email id or ticket id found");
 		}

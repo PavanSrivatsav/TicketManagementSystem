@@ -1,5 +1,7 @@
 package com.pavansrivatsav.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,10 @@ public class UserLoginController {
 
 	@GetMapping
 	public String userLogin(@RequestParam("userEmail") String emailId, @RequestParam("userPassword") String password,
-			ModelMap modelMap) {
+			ModelMap modelMap, HttpSession session) {
 		System.out.println("login->userLogin");
 		try {
+			session.setAttribute("USER_LOGGED_IN", emailId);
 			ums.logIn(emailId, password);
 		} catch (ServiceException e) {
 			modelMap.addAttribute("USER_LOGIN", e.getMessage());
@@ -28,5 +31,3 @@ public class UserLoginController {
 	}
 
 }
-
-

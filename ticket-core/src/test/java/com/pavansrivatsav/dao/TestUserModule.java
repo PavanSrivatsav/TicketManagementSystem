@@ -95,7 +95,7 @@ public class TestUserModule {
 		// // "gowtham1234");
 		// mod.ticketGenerate(ticketDetail, "gowtham@gmail.com", "gowtham1234");
 
-		System.out.println(udao.getUserId("GOWTHAMGOW@GMAIL.COM").getId());
+//		System.out.println(udao.getUserId("GOWTHAMGOW@GMAIL.COM").getId());
 		// logins.closeTicket("gowtham@gmail.com", "gowpassword", 7);//service
 		//	mod.closeTicket("gowtham@gmail.com", "gowpassword", 7);
 

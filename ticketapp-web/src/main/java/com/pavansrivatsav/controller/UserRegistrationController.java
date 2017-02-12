@@ -13,7 +13,6 @@ import com.pavansrivatsav.service.UserDetailService;
 @Controller
 @RequestMapping("/userRegistration")
 public class UserRegistrationController {
-	// private UserDetailDAO userDetailDAO = new UserDetailDAO();
 	private UserDetail user = new UserDetail();
 	private UserDetailService userService = new UserDetailService();
 

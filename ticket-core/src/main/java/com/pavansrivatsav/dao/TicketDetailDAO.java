@@ -34,16 +34,6 @@ public class TicketDetailDAO {
 
 	}
 
-	// public Integer delete(final Integer id) throws PersistenceException {
-	// try {
-	// final String sql = "delete from ticket_details where ID=?";
-	// final Object[] params = { id };
-	// return jdbcTemplate.update(sql, params);
-	// } catch (DataIntegrityViolationException e) {
-	// throw new PersistenceException("Cannot delete ", e);
-	// }
-	// }
-
 	public Integer delete(final TicketDetail ticketDetail) throws PersistenceException {
 		try {
 			final String sql = "delete from ticket_details where ID=?";

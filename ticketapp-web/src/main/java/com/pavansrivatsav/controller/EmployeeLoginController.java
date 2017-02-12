@@ -24,8 +24,7 @@ public class EmployeeLoginController {
 		try {
 			ems.logIn(emailId, password);
 			httpSession.setAttribute("EMP_LOGGED_IN", emailId);
-			// EmployeeDetail emp = (EmployeeDetail)
-			// httpSession.getAttribute("EMP_LOGGED_IN");
+
 		} catch (ServiceException e) {
 			modelMap.addAttribute("EMPLOYEE_LOGIN", e.getMessage());
 			return "/";

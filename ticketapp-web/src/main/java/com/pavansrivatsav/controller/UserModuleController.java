@@ -2,12 +2,16 @@ package com.pavansrivatsav.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pavansrivatsav.dao.UserDetailDAO;
+import com.pavansrivatsav.exception.PersistenceException;
 import com.pavansrivatsav.exception.ServiceException;
 import com.pavansrivatsav.modal.Department;
 import com.pavansrivatsav.modal.TicketDetail;
@@ -23,35 +27,46 @@ public class UserModuleController {
 	private Department dept = new Department();
 	private UserDetail user = new UserDetail();
 	private TicketDetailService ticketDetailService = new TicketDetailService();
+	private UserDetailDAO userdao = new UserDetailDAO();
 
 	@GetMapping
-	public String index(ModelMap modelmap) {
+	public String index(ModelMap modelmap, HttpSession session) throws PersistenceException {
 		System.out.println("userModule->index");
-		List<TicketDetail> userList;
-		userList = ticketDetailService.findById(8);
-		modelmap.addAttribute("USER_TICKET_LIST", userList);
-		return "TicketGeneration.jsp";
+		String email = (String) (session.getAttribute("USER_LOGGED_IN"));
+		Integer UserId = userdao.getUserId(email);
+		if (UserId == null || UserId < 0) {
+			return "redirect:/";
+		} else {
+
+			List<TicketDetail> userList;
+			userList = ticketDetailService.findById(UserId);
+			modelmap.addAttribute("USER_TICKET_LIST", userList);
+			return "TicketGeneration.jsp";
+		}
 	}
 
 	@GetMapping("/ticketInsert")
 	public String ticketRegistration(@RequestParam("subject") String subject,
 			@RequestParam("description") String description, @RequestParam("dept") Integer department,
-			@RequestParam("priority") String priority, ModelMap modelMap) {
+			@RequestParam("priority") String priority, ModelMap modelMap, HttpSession session)
+			throws PersistenceException {
 		System.out.println("usermodule->ticketCreate");
 		try {
-			user.setId(8);
+			String email = (String) (session.getAttribute("USER_LOGGED_IN"));
+			Integer UserId = userdao.getUserId(email);
+			user.setId(UserId);
 			ticketDetail.setUser(user);
 			ticketDetail.setSubject(subject);
 			ticketDetail.setDescription(description);
 			ticketDetail.setPriority(priority);
 			dept.setId(department);
 			ticketDetail.setTicketDept(dept);
-			ums.ticketGeneration(ticketDetail, "pavansrivatsav96@gmail.com", "askjhashdkj");
+			ums.ticketGeneration(ticketDetail, email);
 		} catch (ServiceException e) {
 			modelMap.addAttribute("TICKET_ERROR", e.getMessage());
 			return "/userModule";
 		}
-		return "redirect:../department";
+		return "redirect:../userModule";
 	}
 
 	@GetMapping("/ticketEdit")

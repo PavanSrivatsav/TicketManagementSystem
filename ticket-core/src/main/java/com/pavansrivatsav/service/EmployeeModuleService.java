@@ -33,13 +33,9 @@ public class EmployeeModuleService {
 	public void deleteTicket(String emailId, String pwd, TicketDetail ticketDetail) throws ServiceException {
 		try {
 			ValidationUtil.validateLogin(emailId, pwd);
-			// if (login.employeeLogIn(emailId, pwd))
-			//
-			// {
-			// tdv.idvalidation(ticketDetail.getId());
+
 			empmod.deleteTicket(ticketDetail);
 
-			// }
 		} catch (ValidationException e) {
 			throw new ServiceException(properInputs, e);
 		} catch (PersistenceException e) {
@@ -49,14 +45,10 @@ public class EmployeeModuleService {
 
 	public void assignTicket(String emailId, int toEmpId, int ticId) throws ServiceException {
 		try {
-			// ValidationUtil.validateLogin(emailId, pwd);
-			// if (login.employeeLogIn(emailId, pwd))
-
-			// {
 
 			tdv.idvalidation(ticId);
 			empmod.assignTicketToEmployee(emailId, toEmpId, ticId);
-			// }
+
 		} catch (ValidationException e) {
 			throw new ServiceException(properInputs, e);
 		} catch (PersistenceException e) {
@@ -86,7 +78,6 @@ public class EmployeeModuleService {
 	public void replyToTicket(IssueHistory issue) throws ServiceException {
 		try {
 
-			// ihv.insertValidation(issue);
 			Integer ticketId = issue.getTicketId().getId();
 			String userEmailId = empmod.getemailIdByTicketId(ticketId);
 			String solution = issue.getSolution();
@@ -95,9 +86,6 @@ public class EmployeeModuleService {
 			MailUtil.sendUserMail(userEmailId, "Solution for your TicketId " + ticketId + " is: \n\n", solution);
 		}
 
-		// catch (ValidationException e) {
-		// throw new ServiceException("Enter proper inputs", e);
-		// }
 		catch (PersistenceException e) {
 			throw new ServiceException("Try a diff ticket id", e);
 		} catch (EmailException e) {
