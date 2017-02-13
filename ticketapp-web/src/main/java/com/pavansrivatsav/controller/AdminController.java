@@ -24,8 +24,7 @@ public class AdminController {
 	private EmployeeModule empmod = new EmployeeModule();
 
 	@GetMapping
-	public String empTicketDisplay(ModelMap modelmap) {
-
+	public String empTicketDisplay(ModelMap modelmap, HttpSession session) {
 		List<TicketDetail> ticketList;
 		ticketList = ticketDetailDao.find();
 		modelmap.addAttribute("ADMIN_TICKET_LIST", ticketList);
@@ -33,9 +32,14 @@ public class AdminController {
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam("id") Integer id, ModelMap modelmap) throws ServiceException {
+	public String delete(@RequestParam("id") Integer id, ModelMap modelmap, HttpSession session)
+			throws ServiceException {
 
 		try {
+			String email = (String) (session.getAttribute("ADMIN_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			ticketDetail.setId(id);
 
 			ticketDetailDao.delete(ticketDetail);
@@ -50,14 +54,23 @@ public class AdminController {
 	@GetMapping("/assignTicket")
 	public String assignTicket(@RequestParam("ticketId") Integer id, @RequestParam("employeeId") Integer empId,
 			ModelMap modelmap, HttpSession session) throws ServiceException {
-		String email = (String) (session.getAttribute("ADMIN_LOGGED_IN"));
-		try {
 
+		try {
+			String email = (String) (session.getAttribute("ADMIN_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			empmod.assignTicketToEmployee(email, empId, id);
 		} catch (PersistenceException er) {
 			modelmap.addAttribute("ASSIGN_ERROR", er.getMessage());
 			return "../adminModule";
 		}
 		return "redirect:../adminModule";
+	}
+
+	@GetMapping("/logout")
+	public String assignTicket(HttpSession session) throws ServiceException {
+		session.invalidate();
+		return "redirect:../admin";
 	}
 }

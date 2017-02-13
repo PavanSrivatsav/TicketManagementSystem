@@ -32,21 +32,21 @@ public class EmployeeController {
 
 		List<TicketDetail> empList;
 		String email = (String) (session.getAttribute("EMP_LOGGED_IN"));
-		Integer empId = empDao.getEmpId(email);
-		if (empId == null || empId < 0) {
+		if (email == null) {
 			return "redirect:/";
-		} else {
-			try {
+		}
+		Integer empId = empDao.getEmpId(email);
 
-				empList = em.displayTicket(empId);
-				modelmap.addAttribute("EMP_TICKET_LIST", empList);
+		try {
 
-			} catch (PersistenceException e) {
-				return "employeeModule.jsp";
-			}
+			empList = em.displayTicket(empId);
+			modelmap.addAttribute("EMP_TICKET_LIST", empList);
 
+		} catch (PersistenceException e) {
 			return "employeeModule.jsp";
 		}
+
+		return "employeeModule.jsp";
 	}
 
 	@GetMapping("/replyticket")
@@ -54,6 +54,10 @@ public class EmployeeController {
 			ModelMap modelmap, HttpSession session) {
 
 		try {
+			String email = (String) (session.getAttribute("EMP_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			ticketId.setId(id);
 			issueHistory.setTicketId(ticketId);
 			issueHistory.setSolution(solution);
@@ -68,21 +72,34 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/resolve")
-	public String empTicketResolve(@RequestParam("id") Integer id, ModelMap modelmap) {
-
+	public String empTicketResolve(@RequestParam("id") Integer id, ModelMap modelmap, HttpSession session) {
+		String email = (String) (session.getAttribute("EMP_LOGGED_IN"));
+		if (email == null) {
+			return "redirect:/";
+		}
 		em.employeeResolve(id);
 		return "redirect:../employeeModule";
 	}
 
 	@GetMapping("/reassignticket")
 	public String empTicketReassign(@RequestParam("TicketId") Integer ticketId,
-			@RequestParam("empId") Integer employeeId, ModelMap modelmap) {
+			@RequestParam("empId") Integer employeeId, ModelMap modelmap, HttpSession session) {
 
 		try {
+			String email = (String) (session.getAttribute("EMP_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			em.reAssignTicketToEmployee(employeeId, ticketId);
 		} catch (PersistenceException e) {
 			return "redirect:../employeeModule";
 		}
 		return "redirect:../employeeModule";
+	}
+
+	@GetMapping("/logout")
+	public String assignTicket(HttpSession session) throws ServiceException {
+		session.invalidate();
+		return "redirect:../";
 	}
 }

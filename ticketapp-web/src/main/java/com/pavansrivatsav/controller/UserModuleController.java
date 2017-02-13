@@ -33,16 +33,15 @@ public class UserModuleController {
 	public String index(ModelMap modelmap, HttpSession session) throws PersistenceException {
 
 		String email = (String) (session.getAttribute("USER_LOGGED_IN"));
-		Integer userId = userdao.getUserId(email);
-		if (userId == null || userId < 0) {
+		if (email == null) {
 			return "redirect:/";
-		} else {
-
-			List<TicketDetail> userList;
-			userList = ticketDetailService.findById(userId);
-			modelmap.addAttribute("USER_TICKET_LIST", userList);
-			return "TicketGeneration.jsp";
 		}
+		Integer userId = userdao.getUserId(email);
+
+		List<TicketDetail> userList;
+		userList = ticketDetailService.findById(userId);
+		modelmap.addAttribute("USER_TICKET_LIST", userList);
+		return "TicketGeneration.jsp";
 	}
 
 	@GetMapping("/ticketInsert")
@@ -53,6 +52,9 @@ public class UserModuleController {
 
 		try {
 			String email = (String) (session.getAttribute("USER_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			Integer userId = userdao.getUserId(email);
 			user.setId(userId);
 			ticketDetail.setUser(user);
@@ -72,7 +74,7 @@ public class UserModuleController {
 	@GetMapping("/ticketEdit")
 	public String ticket(@RequestParam("id") Integer id, @RequestParam("editsubject") String subject,
 			@RequestParam("editdescription") String description, @RequestParam("editstatus") String status,
-			ModelMap modelMap) {
+			ModelMap modelMap, HttpSession session) {
 
 		ticketDetail.setId(id);
 		ticketDetail.setSubject(subject);
@@ -80,6 +82,10 @@ public class UserModuleController {
 		ticketDetail.setStatus(status);
 
 		try {
+			String email = (String) (session.getAttribute("USER_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			ums.updateTicket(ticketDetail);
 		} catch (ServiceException e) {
 			modelMap.addAttribute("TICKET_UPDATE_ERROR", e.getMessage());
@@ -89,15 +95,25 @@ public class UserModuleController {
 	}
 
 	@GetMapping("/ticketClose")
-	public String ticket(@RequestParam("id") Integer id, ModelMap modelMap) {
+	public String ticket(@RequestParam("id") Integer id, ModelMap modelMap, HttpSession session) {
 
 		try {
+			String email = (String) (session.getAttribute("USER_LOGGED_IN"));
+			if (email == null) {
+				return "redirect:/";
+			}
 			ums.closeTicket(id);
 		} catch (ServiceException e) {
 			modelMap.addAttribute("TICKET_CLOSE_ERROR", e.getMessage());
 			return "../userModule";
 		}
 		return "redirect:../userModule";
+	}
+
+	@GetMapping("/logout")
+	public String assignTicket(HttpSession session) throws ServiceException {
+		session.invalidate();
+		return "redirect:../";
 	}
 
 }

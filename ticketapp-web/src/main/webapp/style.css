@@ -1,0 +1,6 @@
+@CHARSET "ISO-8859-1";
+
+/* General*/
+.input__text {
+	width: 300px;
+}
